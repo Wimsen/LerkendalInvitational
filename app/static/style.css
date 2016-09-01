@@ -1,0 +1,101 @@
+#wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
+#header {
+
+}
+
+#content {
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    padding-bottom: 150px;
+}
+
+#content img {
+    display: block;
+    margin: 20px auto;
+    width: 50%;
+}
+
+#chart-wrapper {
+    width: 50%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#footer {
+    text-align: center;
+    height: 100px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+
+    background: #337AB7;
+}
+
+#footer-left {
+    float: left;
+    height: 100%;
+    width: 40%;
+    position: absolute;
+    bottom: 0;
+}
+
+#footer-right {
+    position: absolute;
+    bottom: 0;
+    width: 40%;
+    height: 80%;
+    float: right;
+}
+
+#maps-wrapper {
+    display: block;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-form {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+}
+
+#discount-group {
+    margin-top: 50px;
+    padding-bottom: 20px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.settings-table-container {
+    /*background-color: #cccccc;*/
+    margin-bottom: 50px;
+    border-radius: 10px;
+    background: skyblue;
+    padding: 20px;
+    /*width: 200px;*/
+    /*height: 150px; */
+}
+
+.navbar {
+    /*background-color: skyblue;*/
+}
+
+#discount-granted {
+    border-radius: 10px;
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+    background: palegreen;
+}

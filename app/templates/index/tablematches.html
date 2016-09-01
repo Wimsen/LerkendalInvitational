@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block content %}
+{% for table in tablematches.keys() %}
+    <div class="col-md-5">
+    <table class="table table-striped">
+        <caption>Kamper gruppe  {{table}}</caption>
+        <tr>
+            <th>Gruppe</th>
+            <th>Hjemmelag</th>
+            <th>Bortelag</th>
+            <th>Starttidspunkt</th>
+        </tr>
+
+        {% for match in tablematches[table] %}
+            <tr>
+                <td>{{match.group + 1}}</td>
+                <td>{{match.team1.teamname}}</td>
+                <td>{{match.team2.teamname}}</td>
+                <td>{{match.start_time.strftime('%H:%M')}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endfor %} 
+{% endblock %}
