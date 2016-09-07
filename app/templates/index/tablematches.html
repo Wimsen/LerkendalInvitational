@@ -1,24 +1,110 @@
-{% extends "base.html" %} {% block content %}
-{% for table in tablematches.keys() %}
-    <div class="col-md-5">
-    <table class="table table-striped">
-        <caption>Kamper gruppe  {{table}}</caption>
-        <tr>
-            <th>Gruppe</th>
-            <th>Hjemmelag</th>
-            <th>Bortelag</th>
-            <th>Starttidspunkt</th>
-        </tr>
+<div class="row row-eq-height">
+    {% extends "base.html" %} {% block content %} {% for table in tablematches.keys() %}
 
-        {% for match in tablematches[table] %}
-            <tr>
-                <td>{{match.group + 1}}</td>
-                <td>{{match.team1.teamname}}</td>
-                <td>{{match.team2.teamname}}</td>
-                <td>{{match.start_time.strftime('%H:%M')}}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="col-md-5 col-lg-5 col-md-offset-1 col-lg-offset-1">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <caption>Bord {{table}}</caption>
+                <tr>
+                    <th>Gruppe</th>
+                    <th>Hjemmelag</th>
+                    <th>Bortelag</th>
+                    <th>Starttidspunkt</th>
+                    <th>Vinner</th>
+
+                    {% if current_user.is_authenticated %}
+                    <th></th>
+                    {% endif %}
+                </tr>
+
+                {% for match in tablematches[table] %}
+                <tr>
+                    <td>{{match.group + 1}}</td>
+                    <td>{{match.team1.teamname}}</td>
+                    <td>{{match.team2.teamname}}</td>
+                    <td>{{match.start_time.strftime('%H:%M')}}</td>
+
+                    {% if match.winner == 'H' %}
+                    <td><strong>{{match.team1.teamname}}</strong></td>
+
+
+                    {% elif match.winner == 'A' %}
+                    <td><strong>{{match.team2.teamname}}</strong></td>
+
+                    {% else %}
+                    <td></td>
+                    {% endif %} {% if current_user.is_authenticated %}
+                    <td><button onclick="testfunc('{{match.id}}', '{{match.team1.teamname}}', '{{match.team2.teamname}}')" class="result-btn btn btn-primary">
+                <span class="glyphicon glyphicon-edit"></span>
+                </button></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
-{% endfor %} 
-{% endblock %}
+    {% endfor %}
+</div>
+
+
+
+<div id="myModal" class="modal">
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">×</span>
+            <h2>Modal Header</h2>
+        </div>
+        <div class="modal-body">
+            <button class="btn btn-primary" id="team1" onclick="setwinner('H')"></button>
+            <button class="btn btn-primary" id="team2" onclick="setwinner('A')"></button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var m_id;
+     
+    function testfunc(matchid, team1, team2){
+        m_id = matchid; 
+        document.getElementById('team1').innerHTML = team1; 
+        document.getElementById('team2').innerHTML = team2; 
+        var modal = document.getElementById('myModal');
+        modal.style.display = "block";    
+    }
+
+    function setwinner(winner){
+        console.log(winner); 
+        $.ajax({
+            url: '/result',
+            data: JSON.stringify({
+                matchid: m_id,
+                winner: winner
+            }),
+            contentType: "application/json",
+            type: 'POST',
+            success: function (response) {
+                console.log("success");
+                console.log(response);
+                location.reload(); 
+            },
+            error: function(response){
+                console.log("error");
+                console.log(response);
+            }
+        }); 
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById('myModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    $('.close').click(function(span){
+        document.getElementById('myModal').style.display = "none";
+    }); 
+
+</script> {% endblock %}

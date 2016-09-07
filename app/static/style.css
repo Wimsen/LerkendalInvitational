@@ -1,101 +1,42 @@
-#wrapper {
-    min-height: 100%;
+/* Modal Header */
+.modal-header {
+    padding: 2px 16px;
+    background-color: #337AB7;
+    color: white;
+}
+
+/* Modal Body */
+.modal-body {padding: 2px 16px;}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
+/* Modal Content */
+.modal-content {
     position: relative;
-}
-
-#header {
-
-}
-
-#content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
     width: 80%;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
-    padding-bottom: 150px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
 }
 
-#content img {
-    display: block;
-    margin: 20px auto;
-    width: 50%;
+/* Add Animation */
+@-webkit-keyframes animatetop {
+    from {top: -300px; opacity: 0} 
+    to {top: 0; opacity: 1}
 }
 
-#chart-wrapper {
-    width: 50%;
-    margin-top: 50px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#footer {
-    text-align: center;
-    height: 100px;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    z-index: 100;
-
-    background: #337AB7;
-}
-
-#footer-left {
-    float: left;
-    height: 100%;
-    width: 40%;
-    position: absolute;
-    bottom: 0;
-}
-
-#footer-right {
-    position: absolute;
-    bottom: 0;
-    width: 40%;
-    height: 80%;
-    float: right;
-}
-
-#maps-wrapper {
-    display: block;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.content-form {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 50px;
-}
-
-#discount-group {
-    margin-top: 50px;
-    padding-bottom: 20px;
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.settings-table-container {
-    /*background-color: #cccccc;*/
-    margin-bottom: 50px;
-    border-radius: 10px;
-    background: skyblue;
-    padding: 20px;
-    /*width: 200px;*/
-    /*height: 150px; */
-}
-
-.navbar {
-    /*background-color: skyblue;*/
-}
-
-#discount-granted {
-    border-radius: 10px;
-
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
-    background: palegreen;
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
 }

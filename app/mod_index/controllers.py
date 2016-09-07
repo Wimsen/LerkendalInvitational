@@ -1,25 +1,94 @@
-from flask import Blueprint, render_template
-from app import app, db
-import csv, random, datetime
-from app.mod_index.models import Team, Match, Table
+import csv, random, datetime, hmac
+from flask import Blueprint, render_template, request, json, redirect, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+from sqlalchemy import desc
+from app import app, db, bcrypt
+from app.mod_index.models import Team, Match, Table, User
+
+
 
 mod_index = Blueprint('index', __name__, url_prefix='')
 
-@app.route('/')
+@mod_index.route('/')
 def index():
     # Initial tournament setup - only need to be done once. 
     # readInsertTeams()
-    randomizeGroups()
-    # setupMatches()
+    # randomizeGroups()
+    # createMatches()
 
     groups = getGroups()
     return render_template('index/index.html', groups=groups)
 
 
-@app.route('/matches')
+@mod_index.route('/matches')
 def matches():
     tablematches = getTableMatches() 
     return render_template('index/tablematches.html', tablematches=tablematches)
+
+@mod_index.route('/table')
+def table():
+    tables = []
+    for i in range(0, 9): 
+        table = Team.query.filter_by(group=i).order_by(desc(Team.points)).all() 
+        tables.append(table)
+    return render_template('index/tables.html', tables=tables)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index.index'))
+
+
+
+@mod_index.route('/login', methods=['GET', 'POST'])
+def login(): 
+    if request.method == 'GET': 
+        return render_template('index/login.html')
+
+    if request.method == 'POST':  
+        username = request.form["username"]
+        password = request.form["password"]
+        user = User.query.filter_by(username=username).first()
+
+        if user is None:
+            return redirect(url_for('index.login'))
+        if bcrypt.check_password_hash(user.password, password.encode('utf-8')): # returns True
+            login_user(user)
+            return redirect(request.args.get('next') or 'matches')
+        else:
+            return redirect(url_for('index.login'))
+
+    else: 
+        return render_template('index/login.html')
+
+
+@mod_index.route('/result', methods=['POST'])
+@login_required
+def registerResult(): 
+    content = request.get_json()
+    matchid = content["matchid"]
+    winner = content["winner"]
+
+    match = Match.query.filter_by(id=matchid).first()
+    match.winner = winner
+    db.session.commit()
+
+    if winner == 'H': 
+        setPointsByTeam(match.team1_id)
+    if winner == 'A': 
+        setPointsByTeam(match.team2_id)
+    return json.dumps({'error': 'Vennligst skriv inn gyldige data'}), 200, {'ContentType': 'application/json'}
+
+
+
+def setPointsByTeam(teamid): 
+    homevictories = Match.query.filter_by(team1_id=teamid, winner='H').all()
+    awayvictories = Match.query.filter_by(team2_id=teamid, winner='A').all()
+
+    team = Team.query.filter_by(id=teamid).first()
+    team.points = len(homevictories) + len(awayvictories)
+    db.session.commit()
 
 
 def readInsertTeams():
@@ -56,7 +125,7 @@ def randomizeGroups():
         if groups[group] == 4: 
             del groups[group]    
 
-def setupMatches():
+def createMatches():
     groups = getGroups() 
 
     for i in range(0, 8, 2): 
@@ -83,7 +152,6 @@ def getGroups():
     groups = {}
     for i in range(0, 8): 
         groups[i] = Team.query.filter_by(group=i).all()
-        print(i)
     return groups
 
 
