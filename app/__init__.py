@@ -14,15 +14,21 @@ bcrypt = Bcrypt(app)
 db = SQLAlchemy(app)
 
 from app.mod_index.models import Team, Match, Table, User
-from app.mod_index.controllers import mod_index
+from app.mod_index.controllers import mod_index, readInsertTeams, randomizeGroups, createMatches
 app.register_blueprint(mod_index)
 db.create_all()
+db.session.commit()
 
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = '/login'
 
+# Initial tournament setup - only need to be done once.
+
+readInsertTeams()
+randomizeGroups()
+createMatches()
 
 @login_manager.user_loader
 def load_user(id):

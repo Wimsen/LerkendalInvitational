@@ -7,7 +7,6 @@
             <th>Lagnavn</th>
             <th>Medlem 1</th>
             <th>Medlem 2</th>
-            <th>Betalt</th>
         </tr>
 
         {% for team in groups[group] %}
@@ -15,7 +14,6 @@
                 <td>{{team.teamname}}</td>
                 <td>{{team.member1}}</td>
                 <td>{{team.member2}}</td>
-                <td>{{team.paid}}</td>
             </tr>
         {% endfor %}
     </table>
