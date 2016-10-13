@@ -13,8 +13,9 @@ mod_index = Blueprint('index', __name__, url_prefix='')
 
 @mod_index.route('/')
 def index():
-    groups = getGroups()
-    return render_template('index/index.html', groups=groups)
+    # groups = getGroups()
+    # return render_template('index/index.html', groups=groups)
+    return table()
 
 
 @mod_index.route('/matches')
@@ -129,6 +130,7 @@ def createMatches():
     for team in teams:
         team.points = 0
     db.session.commit()
+    
     groups = getGroups()
 
     for i in range(0, 8, 2):

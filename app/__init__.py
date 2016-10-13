@@ -26,9 +26,9 @@ login_manager.login_view = '/login'
 
 # Initial tournament setup - only need to be done once.
 
-readInsertTeams()
-randomizeGroups()
-createMatches()
+# readInsertTeams()
+# randomizeGroups()
+# createMatches()
 
 @login_manager.user_loader
 def load_user(id):
