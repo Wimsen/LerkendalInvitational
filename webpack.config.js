@@ -56,10 +56,10 @@ const config = {
         hot: true,
         stats: 'errors-only',
         proxy: {
-            '!/**/*.{css,js,hot-update.json}': {
+            // '!/**/*.{css,js,hot-update.json}': {
                 target: 'http://localhost:8079',
                 secure: false
-            }
+            // }
         }
     }
 };

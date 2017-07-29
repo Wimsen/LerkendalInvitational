@@ -8,7 +8,7 @@ export default class AccountOverview extends Component {
     render (){
         return (
             <div>
-                Dashboard
+                Dashboard 2
             </div>
         );
     }

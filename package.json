@@ -9,7 +9,7 @@
     "nodemon": "nodemon --watch build build/server-entry",
     "start": "NODE_ENV=production node build/server-entry",
     "build": "NODE_ENV=production npm run compile && webpack --config webpack.prod.config.js",
-    "dev": "NODE_ENV=development webpack-dev-server | npm run watch | npm run nodemon ",
+    "dev": "NODE_ENV=development webpack-dev-server --port 8080 | npm run watch | npm run nodemon ",
     "postinstall": "npm run build"
   },
   "author": "Sparebank1",

@@ -2,9 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 
-import adminRoutes from './routes/admin';
-import userRoutes from './routes/user';
-import bugRoutes from './routes/bug';
+import teamRoutes from './routes/team';
 
 let port = process.env.NODE_ENV === "production" ? 8080 : 8079 ;
 const app = express( );
@@ -18,8 +16,6 @@ app.use(express.static( 'dist' ));
 app.use(bodyParser.json( ));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use( '/admin', adminRoutes );
-app.use( '/', bugRoutes );
-app.use( '/', userRoutes );
+app.use( '/teams', teamRoutes );
 app.listen( process.env.PORT || port );
 console.log( "Server started" );
