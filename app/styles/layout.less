@@ -1,0 +1,228 @@
+@bugSize: 40px;
+@bugSpaceLeft: 15px;
+@menuAnimationDuration: 0.5s;
+// Header
+.header {
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding-top: 2px;
+    z-index: 100000;
+    width: 100%;
+    height: @header-height;
+    background-color: @cWhite;
+    text-align: center;
+}
+// Header til login
+.loginHeader {
+    margin: 0;
+}
+
+.menu {
+    top: 100%;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 3em;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: @header-height;
+    background-color: @cWhite;
+    overflow-x: hidden;
+    box-shadow: 5px 5px 5px #888888;
+}
+
+.menu .row {
+    margin-bottom: 15px;
+}
+
+.menu-top-row {
+    margin-top: 2.5em;
+    padding-bottom: 2.5em !important;
+}
+
+.menu-top-row a {
+    margin-top: 15px;
+    font-size: 11px !important;
+    color: @cRoyal;
+}
+
+.menu-visible-animation {
+    top: @header-height;
+    transition: top @menuAnimationDuration;
+}
+
+.menu-hidden-animation {
+    top: 100%;
+    transition: top @menuAnimationDuration;
+}
+
+.menu-hidden {
+    top: 100%;
+}
+
+.menu-visible {
+    top: @header-height;
+}
+
+.menuSquareItem {
+    border: 1px solid @cRoyal;
+    height: 110px;
+    max-width: 4.5em;
+    padding: 0 10px 12px 10px;
+    border-radius: 2px;
+    line-height: 13px;
+}
+
+.menuSquareItem div svg {
+    margin-bottom: 10px;
+}
+
+// Bug site
+.bugComponent {
+    background-color: #C94096;
+    color: @cWhite !important;
+}
+
+.bugComponent .row {
+    color: @cWhite;
+}
+
+.bugComponent h1 {
+    color: @cWhite;
+}
+.bugoverviewheader {
+}
+
+.bugOverview h1 {
+    color: @cWhite;
+}
+
+.bugmenu {
+    left: 100%;
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: @bugSpaceLeft + @bugSize + 15px;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    overflow-x: hidden;
+    font-size: 13px;
+    z-index: 3;
+    top: 0;
+    pointer-events: auto;
+}
+
+.bugmenu-visible-animation {
+    left: @bugSpaceLeft + @bugSize;
+    transition: left @menuAnimationDuration;
+    box-shadow: -2px 0 4px 0 rgba(0,0,0,0.5);
+}
+
+.bugmenu-hidden-animation {
+    left: 100%;
+    transition: left @menuAnimationDuration;
+}
+
+.bugmenu-hidden {
+    left: 100%;
+}
+
+.bugmenu-visible {
+    left: @bugSpaceLeft + @bugSize;
+}
+
+.bugbutton {
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: @header-height + 25px;
+    background-color: #C94096;
+    pointer-events: auto;
+    box-shadow: -2px 0 4px 0 rgba(0,0,0,0.5);
+}
+
+.bugbutton-hidden {
+    left: ~"calc(100% - 40px)";
+}
+
+.bugbutton-visible {
+    left: 15px;
+}
+
+.bugbutton-visible-animation {
+    left: 15px;
+    transition: left @menuAnimationDuration;
+}
+
+.bugbutton-hidden-animation {
+    left: ~"calc(100% - 40px)";
+    transition: left @menuAnimationDuration;
+}
+
+.bugmenu .formLabel {
+    color: @cWhite;
+}
+
+.bugmenu tr {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bugmenu tr > td {
+    padding-bottom: 1em;
+}
+
+.shadowOverlay {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: black;
+    display: block;
+    pointer-events: none;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.shadowOverlay-hidden {
+    pointer-events: none;
+}
+
+.shadowOverlay-visible-animation {
+    animation: fadeInOpacity @menuAnimationDuration ease-out;
+    opacity: 0.5;
+    pointer-events: all;
+}
+
+.shadowOverlay-hidden-animation {
+    animation: fadeOutOpacity @menuAnimationDuration ease-out;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@keyframes fadeInOpacity {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+@keyframes fadeOutOpacity {
+    0% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
