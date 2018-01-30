@@ -7,6 +7,7 @@ class Index extends Component {
             <div>
                 <h1>Lerkendal Invitational</h1>
                 Hey ho
+                <h2>Hallo</h2>
             </div>
         );
     }
