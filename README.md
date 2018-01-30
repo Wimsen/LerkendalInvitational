@@ -1,4 +1,4 @@
-# Test-the-Testers
+# Lerkendal Invitational
 
 ## Development
 For compiling and running the app in a development environment, run from the project directory:
