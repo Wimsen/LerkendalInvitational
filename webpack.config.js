@@ -1,14 +1,12 @@
-const webpack = require( 'webpack' );
-const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
     entry: {
         app: [
             'babel-polyfill', './app/index.js'
         ],
-        styles: [
-            './app/styles/styles.less', './app/styles/bootstrap-grid.min.css'
-        ]
+        styles: ['./app/styles/styles.less', './app/styles/bootstrap.min.css', './app/styles/bootstrap-grid.min.css']
     },
 
     output: {
@@ -21,37 +19,35 @@ const config = {
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loaders: [ 'babel-loader' ]
+                loaders: ['babel-loader']
             }, {
                 test: [
                     /\.less$/, /\.css$/
                 ],
-                loaders: [ 'style-loader', 'css-loader', 'less-loader' ]
+                loaders: ['style-loader', 'css-loader', 'less-loader']
             }, {
                 test: /\.(otf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
+            }, {
+                //IMAGE LOADER
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: 'file-loader'
             }
         ]
     },
 
     resolve: {
-        extensions: [ '.js', '.jsx' ]
+        extensions: ['.js', '.jsx']
     },
 
     plugins: [
         new HtmlWebpackPlugin({
             template: 'index.template.ejs',
-            filename: 'userindex.html',
+            filename: 'index.html',
             inject: 'body',
-            chunks: [ 'app', 'styles' ]
+            chunks: ['app', 'styles']
         }),
-        new HtmlWebpackPlugin({
-            template: 'index.template.ejs',
-            filename: 'adminindex.html',
-            inject: 'body',
-            chunks: [ 'adminapp', 'adminstyles' ]
-        }),
-        new webpack.HotModuleReplacementPlugin( )
+        new webpack.HotModuleReplacementPlugin()
     ],
 
     devtool: 'source-map',

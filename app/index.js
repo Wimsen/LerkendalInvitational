@@ -5,15 +5,15 @@ import createBrowserHistory from 'history/createBrowserHistory';
 
 import Layout from './containers/Layout'
 import Index from './containers/Index';
-
-
+import Teams from './containers/Teams';
 
 ReactDOM.render((<Router history={createBrowserHistory()}>
-  <div>
+    <div>
 
-    <Layout>
-      <Route exact={true} path="/" component={Index}/>
-    </Layout>
-
-  </div>
+        <Layout>
+            <Route exact path="/" component={Index}/>
+            <Route path="/teams" component={Teams}/>
+        </Layout>
+        
+    </div>
 </Router>), document.getElementById('root'));

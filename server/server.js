@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
+import path from 'path'; 
 
 import indexRoutes from './routes/index'
 
@@ -16,6 +17,10 @@ app.use(express.static('dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/', indexRoutes);
+// app.use('/', indexRoutes);
+
+app.get('*', ( req, res ) => {
+    res.sendFile(path.join( __dirname, '../dist/index.html' ));
+});
 app.listen(process.env.PORT || port);
 console.log("Server started");

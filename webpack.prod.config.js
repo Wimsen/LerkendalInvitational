@@ -8,7 +8,7 @@ const config = {
             'babel-polyfill', './app/index.js'
         ],
         styles: [
-            './app/styles/styles.less', './app/styles/bootstrap-grid.min.css'
+            './app/styles/styles.less', './app/styles/bootstrap.min.css', './app/styles/bootstrap-grid.min.css'
         ]
     },
 
