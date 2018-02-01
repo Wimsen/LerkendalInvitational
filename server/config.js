@@ -1,7 +1,7 @@
 const env = process.env;
 const config = {
     db: {
-        url: env.DATABASE_URL
+        url: env.LI_DB_URI
     }
 };
 

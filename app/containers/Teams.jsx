@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
+import TeamListItem from '../components/Teams/TeamListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 import {getTeams} from '../db-mock';
@@ -21,7 +22,6 @@ class Teams extends Component {
             loading: true
         });
         let teams = await getTeams();
-
         this.setState({
             teams: teams,
             loading: false
@@ -38,9 +38,9 @@ class Teams extends Component {
             {
                 this.state.loading ?
                 <LoadingSpinner/>
-                : <div>
-                    {teamsrows}
-                </div>
+                : this.state.teams.map(team =>
+                    <TeamListItem key={team.id} team={team} />
+                )
             }
         </div>);
     }
