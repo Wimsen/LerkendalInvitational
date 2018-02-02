@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
+import {FaSearch} from 'react-icons/lib/fa/';
 
 import TeamListItem from '../components/Teams/TeamListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -13,6 +14,7 @@ class Teams extends Component {
 
         this.state = {
             teams: [],
+            filteredTeams: [],
             loading: false
         }
     }
@@ -24,23 +26,52 @@ class Teams extends Component {
         let teams = await getTeams();
         this.setState({
             teams: teams,
+            filteredTeams: teams,
             loading: false
         });
     }
 
-    render() {
-        let teamsrows = [];
+    filterTeams = (filter) => {
+        let filteredTeams = this.state.teams.filter(team => {
+            return team.name.toLowerCase().includes(filter.target.value.toLowerCase());
+        });
 
-        for (let team of this.state.teams) {
-            teamsrows.push(<div key={team.name}>{team.name}</div>)
-        }
+        this.setState({
+            filteredTeams: filteredTeams
+        });
+    }
+
+    render() {
         return (<div>
             {
                 this.state.loading ?
                 <LoadingSpinner/>
-                : this.state.teams.map(team =>
-                    <TeamListItem key={team.id} team={team} />
-                )
+                : <div>
+                	<div className="row">
+                        <div className="col-md-6">
+                            <i className="fas fa-search"></i>
+                    		<h2>Lagoversikt</h2>
+                            <div id="custom-search-input">
+                                <div className="input-group">
+                                    <input onChange={this.filterTeams} type="text" className="form-control input-lg" placeholder="Søk etter lag" />
+                                    <span className="input-group-btn">
+                                        <button className="btn btn-info btn-lg" type="button">
+                                            <FaSearch />
+                                        </button>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                	</div>
+                    <div className="teamList">
+                    {
+                        this.state.filteredTeams.map(team =>
+                            <TeamListItem key={team.id} team={team} />
+                        )
+                    }
+                    </div>
+                </div>
             }
         </div>);
     }

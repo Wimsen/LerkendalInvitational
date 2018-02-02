@@ -8,7 +8,8 @@ import Index from './containers/Index';
 import Teams from './containers/Teams';
 import TeamDetails from './containers/Teamdetails'
 import Login from './containers/Login';
-import Chat from './containers/Chat.jsx'; 
+import Chat from './containers/Chat';
+import Register from './containers/Register';
 
 ReactDOM.render((<Router history={createBrowserHistory()}>
     <div>
@@ -19,6 +20,7 @@ ReactDOM.render((<Router history={createBrowserHistory()}>
             <Route path="/teams/:id" component={TeamDetails}/>
             <Route path="/login" component={Login} />
             <Route path="/chat" component={Chat} />
+            <Route path="/register" component={Register} />
         </Layout>
 
     </div>

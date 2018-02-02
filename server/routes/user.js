@@ -18,14 +18,16 @@ const userRouter = express.Router();
 export default userRouter;
 
 userRouter.post('/register', async (req, res) => {
-    if (!req.body.user)
+    if (!req.body.newUser)
         res.status(400).send(JSON.stringify("Bad request"));
 
-    let newUser = req.body.user;
-    let errors = validateUser(newUser);
-    if (Object.keys(errors).length > 0) {
-        return res.status(400).send(JSON.stringify(errors));
-    }
+    let newUser = req.body.newUser;
+
+    // TODO validation 
+    // let errors = validateUser(newUser);
+    // if (Object.keys(errors).length > 0) {
+    //     return res.status(400).send(JSON.stringify(errors));
+    // }
 
     try {
         let result = await createUser(newUser);

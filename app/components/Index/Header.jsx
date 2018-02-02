@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
+import {isAuthenticated, logOut} from '../../auth';
+
 class Header extends Component {
+
+    handleLogout = () => {
+        logOut();
+        this.props.history.push('/login');
+    }
+
     render() {
         return (<div>
             <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
@@ -25,12 +33,22 @@ class Header extends Component {
                             <Link className="nav-link" to="/chat">Chat</Link>
                         </li>
 
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/login">Logg inn</Link>
-                        </li>
-                        <li className="nav-item"></li>
+                        {
+                            isAuthenticated() ?
+                            <li className="nav-item">
+                                <div className="nav-link" onClick={this.handleLogout}>Logg ut</div>
+                            </li>
+                            :
+                            <div>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/login">Logg inn</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to="/register">Register</Link>
+                                </li>
+                            </div>
+                        }
                     </ul>
-
                 </div>
             </nav>
         </div>);

@@ -45,21 +45,22 @@ export async function getUser(id) {
     return user;
 }
 
-export async function getUserByMail(mail) {
+export async function getUserByUsername(username) {
     let user = null;
     try {
-        user = await dbFindOne('users', {mail});
+        user = await dbFindOne('users', {username: username});
     } catch (e) {
+        console.log(e);
         throw new VError({
             name: DBErrorName,
-            info: mail
-        }, 'Couldn\'t get user by mail. ');
+            info: username
+        }, 'Couldn\'t get user by username. ');
     }
 
     if (!user) {
         throw new VError({
             name: DBErrorName,
-            info: mail
+            info: username
         }, UserNotFound);
     }
 
@@ -79,17 +80,13 @@ else
 
 export async function createUser(newUser) {
     escapeUser(newUser);
-
-    var hash = bcrypt.hashSync(newUser.password, saltRounds);
     try {
-        let userMail = newUser.mail.toLowerCase();
-        let userName = newUser.name.toLowerCase().replace(/[åøæÅÆØ]*(\w\S*)/g, (txt) => {
-            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-        });
-
-        let result = await dbRunPromise('INSERT INTO users AS u (mail, name, password_hash) VALUES ($1, $2, $3)', [userMail, userName, hash]);
+        let hash = bcrypt.hashSync(newUser.password, saltRounds);
+        let username = newUser.username.toLowerCase();
+        let result = await dbRunPromise('INSERT INTO users AS u (username, password_hash) VALUES ($1, $2)', [username, hash]);
         return result;
     } catch (e) {
+        console.log(e);
         let message = GeneralError;
         if (e.code == 23505) {
             message = UserAlreadyExists;

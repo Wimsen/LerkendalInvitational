@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-import {getUserByMail, verifyPassword} from '../db/user';
+import {getUserByUsername, verifyPassword} from '../db/user';
 
 export async function authenticate(req, res, next) {
     console.log("AUTHENTICATE");
     try {
-        let username = req.body.mail.toLowerCase();
+        let username = req.body.username.toLowerCase();
         let password = req.body.password;
 
-        let user = await getUserByMail(username);
+        let user = await getUserByUsername(username);
         let success = await verifyPassword(password, user.password_hash);
         const payload = {
             username: username,

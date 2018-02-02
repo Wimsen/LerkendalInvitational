@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {userFetch} from '../auth';
+import {userFetch, getUserInfo, isAuthenticated} from '../auth';
 import openSocket from 'socket.io-client';
 
 import MessageForm from '../components/chat/MessageForm.jsx';
@@ -43,12 +43,13 @@ class Chat extends Component {
         } catch (e) {
             console.log(e);
         }
+        let userInfo = getUserInfo();
+        console.log(userInfo);
     }
 
-    handleNewMessage = (text) => {
-        // let userInfo = getUserInfo()
-        // let userName = userInfo.username;
-        let userName = "username";
+    handleNewMessage = async (text) => {
+        let userInfo = getUserInfo();
+        let userName = userInfo.username;
 
         let message = {
             author: userName,
@@ -67,11 +68,15 @@ class Chat extends Component {
         return (<div className="App">
             <h2>Chat</h2>
             {
+                isAuthenticated() ?
                 this.state.loading
                     ? <LoadingSpinner/>
-                    : <MessageList messages={this.state.messages}/>
+                    : <div>
+                        <MessageList messages={this.state.messages}/>
+                        <MessageForm onMessageSend={this.handleNewMessage}/>
+                    </div>
+                : <div>Du må logge inn</div>
             }
-            <MessageForm onMessageSend={this.handleNewMessage}/>
         </div>)
     }
 }

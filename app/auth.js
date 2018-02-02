@@ -1,10 +1,10 @@
 import jwtDecode from 'jwt-decode';
 
-export async function authenticate(mail, password) {
+export async function authenticate(username, password) {
     return new Promise(async (resolve, reject) => {
         try {
             let response = await userFetch('/authenticate', {
-                mail: mail,
+                username: username,
                 password: password
             });
 
@@ -58,6 +58,7 @@ export function isAuthenticated() {
 export function getUserInfo() {
     if (!isAuthenticated())
         return {name: 'Ikke logget inn'}
+    console.log(localStorage.getItem('id_token'));
     let token = localStorage.getItem('id_token');
     return jwtDecode(token);
 }
