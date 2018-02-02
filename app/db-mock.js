@@ -1,5 +1,11 @@
 var standardTeams = [
     {
+        "id": 0,
+        "name": "Lag 0",
+        "member1": "Member 1",
+        "member2": "Member 2",
+        "points": 1
+    }, {
         "id": 1,
         "name": "Lag 1",
         "member1": "Member 1",
