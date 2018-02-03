@@ -1,7 +1,7 @@
 {
-  "name": "test-the-testers",
+  "name": "Lerkendal Invitational",
   "version": "1.0.0",
-  "description": "Testapp for å teste testere",
+  "description": "Webside for beerpongturnering",
   "main": "server-entry.js",
   "scripts": {
     "watch": "babel server --out-dir build --watch",
@@ -12,7 +12,7 @@
     "dev": "NODE_ENV=development webpack-dev-server | npm run watch | npm run nodemon ",
     "postinstall": "npm run build"
   },
-  "author": "Sparebank1",
+  "author": "Jørgen Wilhelmsen",
   "dependencies": {
     "babel-cli": "^6.24.1",
     "babel-core": "^6.0.20",
