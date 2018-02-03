@@ -1,5 +1,5 @@
 {
-  "name": "Lerkendal Invitational",
+  "name": "lerkendal-invitational",
   "version": "1.0.0",
   "description": "Webside for beerpongturnering",
   "main": "server-entry.js",
