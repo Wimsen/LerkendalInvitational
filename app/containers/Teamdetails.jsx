@@ -32,7 +32,6 @@ class TeamDetails extends Component {
             return match.winner != null;
         });
 
-
         this.setState({
             team: team,
             teams: teams,
@@ -49,9 +48,9 @@ class TeamDetails extends Component {
                 <LoadingSpinner/>
                 :
                 <div>
-                    <Link to="/teams">
+                    <div onClick={this.props.history.goBack}>
                         <FaArrowLeft />
-                    </Link>
+                    </div>
                     <div className="row">
                         <div className="col center-text">
                             <h3>{this.state.team.name}</h3>

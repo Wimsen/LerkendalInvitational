@@ -10,6 +10,8 @@ import TeamDetails from './containers/Teamdetails'
 import Login from './containers/Login';
 import Chat from './containers/Chat';
 import Register from './containers/Register';
+import Matches from './containers/Matches';
+import Groups from './containers/Groups'; 
 
 ReactDOM.render((<Router history={createBrowserHistory()}>
     <div>
@@ -21,6 +23,8 @@ ReactDOM.render((<Router history={createBrowserHistory()}>
             <Route path="/login" component={Login} />
             <Route path="/chat" component={Chat} />
             <Route path="/register" component={Register} />
+            <Route path="/matches" component={Matches} />
+            <Route path="/groups" component={Groups} />
         </Layout>
 
     </div>

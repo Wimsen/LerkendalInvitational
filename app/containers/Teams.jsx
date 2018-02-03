@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {FaSearch} from 'react-icons/lib/fa/';
 
-import TeamListItem from '../components/Teams/TeamListItem';
+import TeamList from '../components/Teams/TeamList';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 import {getTeams} from '../db-mock';
@@ -64,13 +64,7 @@ class Teams extends Component {
                             </div>
                         </div>
                 	</div>
-                    <div className="teamList">
-                    {
-                        this.state.filteredTeams.map(team =>
-                            <TeamListItem key={team.id} team={team} />
-                        )
-                    }
-                    </div>
+                    <TeamList teams={this.state.filteredTeams} />
                 </div>
             }
         </div>);

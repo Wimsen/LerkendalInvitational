@@ -8,8 +8,12 @@ class TeamListItem extends Component {
         let linkPath = `/teams/${this.props.team.id}`;
         return (<Link to={linkPath}>
             <div className="row teamListItem">
-                <div className="col-md-6">
+                <div className="col">
                     {this.props.team.name}
+                </div>
+
+                <div className="col">
+                    {this.props.team.points}
                 </div>
             </div>
             <hr/>

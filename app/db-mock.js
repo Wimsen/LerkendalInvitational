@@ -66,30 +66,35 @@ var currentdate = new Date();
 var standardMatches = {
     1: [
         {
+            "id": 0,
             "homeTeam": 1,
             "awayTeam": 2,
             "timestamp": new Date(),
             "winner": 1,
             "table": 1
         }, {
+            "id": 1,
             "homeTeam": 1,
             "awayTeam": 3,
             "timestamp": new Date(),
             "winner": 2,
             "table": 1
         }, {
+            "id": 2,
             "homeTeam": 1,
             "awayTeam": 4,
             "timestamp": new Date(),
             "winner": null,
             "table": 2
         }, {
+            "id": 3,
             "homeTeam": 1,
             "awayTeam": 6,
             "timestamp": new Date(),
             "winner": null,
             "table": 2
         }, {
+            "id": 4,
             "homeTeam": 1,
             "awayTeam": 7,
             "timestamp": new Date(),
@@ -98,6 +103,47 @@ var standardMatches = {
         }
     ]
 };
+
+var standardGroups = {
+    0: [
+        {
+            "id": 1,
+            "name": "Lag 1",
+            "points": 1
+        }, {
+            "id": 2,
+            "name": "Lag 2",
+            "points": 3
+        }, {
+            "id": 3,
+            "name": "Lag 3",
+            "points": 0
+        }, {
+            "id": 4,
+            "name": "Lag 4",
+            "points": 1
+        }
+    ],
+    1: [
+        {
+            "id": 5,
+            "name": "Lag 5",
+            "points": 1
+        }, {
+            "id": 6,
+            "name": "Lag 6",
+            "points": 3
+        }, {
+            "id": 7,
+            "name": "Lag 7",
+            "points": 0
+        }, {
+            "id": 8,
+            "name": "Lag 8",
+            "points": 1
+        }
+    ]
+}
 
 export async function getTeams() {
     return new Promise((resolve, reject) => {
@@ -120,6 +166,22 @@ export async function getMatchesByTeamId(id){
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             resolve(standardMatches[id]);
+        }, 539);
+    });
+}
+
+export async function getMatches(){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(standardMatches[1]);
+        }, 539);
+    });
+}
+
+export async function getGroups(){
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(standardGroups);
         }, 539);
     });
 }

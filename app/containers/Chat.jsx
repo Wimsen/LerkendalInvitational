@@ -29,10 +29,11 @@ class Chat extends Component {
 
     async componentWillMount() {
         try {
-            this.setState({loading: true});
+            this.setState({
+                loading: true
+            });
 
             let messages = await userFetch('/messages');
-            console.log(messages);
             this.setState({
                 loading: false,
                 messages: [
@@ -43,8 +44,6 @@ class Chat extends Component {
         } catch (e) {
             console.log(e);
         }
-        let userInfo = getUserInfo();
-        console.log(userInfo);
     }
 
     handleNewMessage = async (text) => {
