@@ -20,5 +20,7 @@ CREATE TABLE IF NOT EXISTS chat (
     id serial PRIMARY KEY,
     created timestamp without time zone DEFAULT now(),
     author varchar(255) NOT NULL,
-    message varchar(255) NOT NULL
+    textcontent varchar(255) NOT NULL, 
+    type varchar(255) NOT NULL,
+    s3key varchar(255)
 );

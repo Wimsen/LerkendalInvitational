@@ -17,6 +17,30 @@ export async function authenticate(username, password) {
     });
 }
 
+export async function getFetch(endpoint, headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+}
+) {
+    let method = 'GET';
+    return new Promise(async (resolve, reject) => {
+        try {
+            let response = await fetch(endpoint, {
+                method: method,
+                headers: headers
+            });
+            console.log(response);
+            if (response.ok) {
+                resolve(response);
+            } else {
+                reject(response);
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 export async function userFetch(endpoint, body, methodParam, headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -36,6 +60,7 @@ export async function userFetch(endpoint, body, methodParam, headers = {
                 headers: headers,
                 body: JSON.stringify(body)
             });
+            console.log(response);
             let responseJson = await response.json();
             if (response.ok) {
                 resolve(responseJson);

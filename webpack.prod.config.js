@@ -11,7 +11,7 @@ const config = {
             './app/static/js/bootstrap.min.js',
             './app/static/js/mdb.min.js'
         ],
-        styles: ['./app/static/styles/styles.less']
+        styles: ['./app/static/styles/styles.less', 'react-chat-elements/dist/main.css']
     },
 
     output: {

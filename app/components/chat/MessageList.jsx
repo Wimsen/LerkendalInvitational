@@ -4,7 +4,7 @@ import Message from './Message'
 class MessageList extends Component {
 
     constructor() {
-        super(); 
+        super();
         this.state = {
             messages: []
         }
@@ -19,6 +19,7 @@ class MessageList extends Component {
             <div className="MessageList" ref={(node) => (this.node = node)}>
                 {this.props.messages.map((message, i) => (<Message key={i} {...message}/>))}
             </div>
+
         );
     }
 }

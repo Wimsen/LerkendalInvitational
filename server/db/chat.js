@@ -11,7 +11,7 @@ const ValidationError = "Validering feilet. ";
 export async function createMessage(newMessage) {
     try {
 
-        let result = await dbRunPromise('INSERT INTO chat AS c (author, message) VALUES ($1, $2)', [newMessage.author, newMessage.message]);
+        let result = await dbRunPromise('INSERT INTO chat AS c (author, textcontent, type, s3key) VALUES ($1, $2, $3, $4)', [newMessage.author, newMessage.textcontent, newMessage.type, newMessage.s3key]);
         return result;
     } catch (e) {
         console.log(e)

@@ -37,8 +37,13 @@
 
 
 .MessageForm {
-  display: flex;
-  background: #ccc;
+    display: flex;
+    position: fixed;
+    z-index: 100;
+    bottom: 0;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .MessageForm .input-container {
@@ -66,12 +71,6 @@
   padding: 0 0 0 4px;
 }
 
-.MessageList {
-  overflow-y: auto;
-  padding: 4px;
-  min-height: 80%;
-}
-
 .listContainer {
     margin-top: 20px;
 }
@@ -82,4 +81,16 @@
 
 .listContainer a{
     color: black !important;
+}
+
+.chat {
+    height:100%;
+    padding-bottom: 50px;
+}
+
+.rce-mbox-photo--img img {
+    max-height: 100px !important;
+}
+.modal-content img {
+    max-width: 100%; 
 }
