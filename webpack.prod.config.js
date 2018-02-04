@@ -5,11 +5,13 @@ const ExtractTextPlugin = require( 'extract-text-webpack-plugin' );
 const config = {
     entry: {
         app: [
-            'babel-polyfill', './app/index.js'
+            'babel-polyfill',
+            './app/index.js',
+            './app/static/js/popper.min.js',
+            './app/static/js/bootstrap.min.js',
+            './app/static/js/mdb.min.js'
         ],
-        styles: [
-            './app/styles/styles.less', './app/styles/bootstrap.min.css', './app/styles/bootstrap-grid.min.css'
-        ]
+        styles: ['./app/static/styles/styles.less']
     },
 
     output: {
@@ -31,10 +33,16 @@ const config = {
                     fallback: 'style-loader',
                     use: [ 'css-loader', 'less-loader' ]
                 })
-            }, {
+            },
+            {
                 test: /\.(otf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
-            }
+            },
+            {
+               //IMAGE LOADER
+               test: /\.(jpe?g|png|gif|svg)$/i,
+               loader: 'file-loader'
+           }
         ]
     },
 
@@ -43,6 +51,10 @@ const config = {
     },
 
     plugins: [
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery'
+         }),
         new HtmlWebpackPlugin({
             template: 'index.template.ejs',
             filename: 'index.html',

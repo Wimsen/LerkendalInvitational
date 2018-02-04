@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {FaSearch} from 'react-icons/lib/fa/';
 
+import Search from '../components/Search'; 
 import TeamList from '../components/Teams/TeamList';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -48,22 +49,11 @@ class Teams extends Component {
                 <LoadingSpinner/>
                 : <div>
                 	<div className="row">
-                        <div className="col-md-6">
-                            <i className="fas fa-search"></i>
+                        <div className="col">
                     		<h2>Lagoversikt</h2>
-                            <div id="custom-search-input">
-                                <div className="input-group">
-                                    <input onChange={this.filterTeams} type="text" className="form-control input-lg" placeholder="Søk etter lag" />
-                                    <span className="input-group-btn">
-                                        <button className="btn btn-info btn-lg" type="button">
-                                            <FaSearch />
-                                        </button>
-
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                 	</div>
+                    <Search filterMethod={this.filterTeams} />
                     <TeamList teams={this.state.filteredTeams} />
                 </div>
             }

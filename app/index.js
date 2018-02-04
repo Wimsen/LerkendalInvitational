@@ -11,13 +11,19 @@ import Login from './containers/Login';
 import Chat from './containers/Chat';
 import Register from './containers/Register';
 import Matches from './containers/Matches';
-import Groups from './containers/Groups'; 
+import Groups from './containers/Groups';
+import {Navbar} from 'mdbreact';
+
+import "jquery";
+import "popper.js";
+import "node-waves";
+
 
 ReactDOM.render((<Router history={createBrowserHistory()}>
     <div>
 
         <Layout>
-            <Route exact path="/" component={Index}/>
+            <Route exact path="/" component={Teams}/>
             <Route exact path="/teams" component={Teams}/>
             <Route path="/teams/:id" component={TeamDetails}/>
             <Route path="/login" component={Login} />

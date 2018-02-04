@@ -37,8 +37,7 @@ class Groups extends Component {
                 <LoadingSpinner/>
                 : <div>
                 	<div className="row">
-                        <div className="col-md-6">
-                            <i className="fas fa-search"></i>
+                        <div className="col">
                     		<h2>Gruppeoversikt</h2>
                         </div>
                 	</div>

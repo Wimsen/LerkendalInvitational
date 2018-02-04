@@ -47,19 +47,18 @@ class Login extends Component {
     }
 
     render() {
-        return (<div className="wrapper">
+        return (
             <form className="form-signin">
-                <h2 className="form-signin-heading">Please login</h2>
+                <h2 className="form-signin-heading">Logg inn</h2>
                 <input onChange={this.handleInputChange} type="text" className="form-control" name="username" placeholder="Email Address" />
                 <input onChange={this.handleInputChange} type="password" className="form-control" name="password" placeholder="Password" />
 
                 {
                     this.state.loading ? <LoadingSpinner /> :
-                    <button className="btn btn-lg btn-primary btn-block" onClick={this.onSubmit}>Login</button>
+                    <button className="btn btn-lg btn-primary btn-block" onClick={this.onSubmit}>Logg inn</button>
                 }
-                </form>
-            </div>
-            );
+            </form>
+        );
     }
 }
 

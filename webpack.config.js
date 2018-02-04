@@ -4,9 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = {
     entry: {
         app: [
-            'babel-polyfill', './app/index.js'
+            'babel-polyfill',
+            './app/index.js',
+            './app/static/js/popper.min.js',
+            './app/static/js/bootstrap.min.js',
+            './app/static/js/mdb.min.js'
         ],
-        styles: ['./app/styles/styles.less', './app/styles/bootstrap.min.css', './app/styles/bootstrap-grid.min.css']
+        styles: ['./app/static/styles/styles.less']
     },
 
     output: {
@@ -41,6 +45,10 @@ const config = {
     },
 
     plugins: [
+        new webpack.ProvidePlugin({
+             $: "jquery",
+             jQuery: "jquery"
+         }),
         new HtmlWebpackPlugin({
             template: 'index.template.ejs',
             filename: 'index.html',

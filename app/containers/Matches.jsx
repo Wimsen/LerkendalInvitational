@@ -6,6 +6,8 @@ import TeamListItem from '../components/Teams/TeamListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import MatchListItem from '../components/TeamDetails/MatchListItem';
 
+import Search from '../components/Search';
+
 import {getTeams, getMatches} from '../db-mock';
 
 class Matches extends Component {
@@ -65,22 +67,13 @@ class Matches extends Component {
                 <LoadingSpinner/>
                 : <div>
                 	<div className="row">
-                        <div className="col-md-6">
-                            <i className="fas fa-search"></i>
+                        <div className="col">
                     		<h2>Kampoversikt</h2>
-                            <div id="custom-search-input">
-                                <div className="input-group">
-                                    <input onChange={this.filterMatches} name="filterText" type="text" className="form-control input-lg" placeholder="Søk etter kamper" />
-                                    <span className="input-group-btn">
-                                        <button className="btn btn-info btn-lg" type="button">
-                                            <FaSearch />
-                                        </button>
-
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                 	</div>
+
+                    <Search filterMethod={this.filterMatches} />
+
                     <div className="listContainer">
                         <h4>Kommende kamper</h4>
                         {
