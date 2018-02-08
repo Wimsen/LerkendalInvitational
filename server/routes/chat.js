@@ -1,10 +1,11 @@
 import express from 'express';
-import path from 'path';
-import jwt from 'jsonwebtoken';
+
 import {getAllMessages} from '../db/chat';
+import {isAuthenticated} from '../auth/userAuth';
 
 const chatRouter = express.Router();
 export default chatRouter;
+chatRouter.use(isAuthenticated);
 
 chatRouter.get("/messages", async (req, res) => {
     const messages = await getAllMessages();

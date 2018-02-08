@@ -28,7 +28,7 @@ class Register extends Component {
         };
 
         try {
-            let result = await userFetch('/register', {
+            let result = await userFetch('/api/register', {
                 newUser: newUser
             });
             console.log(result);

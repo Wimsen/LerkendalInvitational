@@ -16,7 +16,7 @@ class MatchListItem extends Component {
                 awayTeamClassName = "col ";
             }
         }
-        
+
         return (
             <div>
                 <div className="row ">
@@ -27,14 +27,20 @@ class MatchListItem extends Component {
                     <div className={awayTeamClassName}>
                         {this.props.awayTeamName}
                     </div>
-                    <div className="col">
-                        {formatDateToTime(this.props.timestamp)}
-                    </div>
-
-                    <div className="col">
-                        Bord {this.props.table}
-                    </div>
                 </div>
+                {
+                    this.props.winner ? ""
+                    :
+                    <div className="row">
+                        <div className="col">
+                            {formatDateToTime(new Date(this.props.start_time))}
+                        </div>
+
+                        <div className="col">
+                            Bord {this.props.table_number + 1}
+                        </div>
+                    </div>
+                }
                 <hr/>
             </div>
         );

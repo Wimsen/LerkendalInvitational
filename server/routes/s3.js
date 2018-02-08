@@ -1,7 +1,4 @@
 import express from 'express';
-import path from 'path';
-import jwt from 'jsonwebtoken';
-import {getAllMessages} from '../db/chat';
 
 const s3Router = express.Router();
 export default s3Router;

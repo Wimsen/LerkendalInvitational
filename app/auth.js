@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode';
 export async function authenticate(username, password) {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = await userFetch('/authenticate', {
+            let response = await userFetch('/api/authenticate', {
                 username: username,
                 password: password
             });
@@ -29,7 +29,6 @@ export async function getFetch(endpoint, headers = {
                 method: method,
                 headers: headers
             });
-            console.log(response);
             if (response.ok) {
                 resolve(response);
             } else {
@@ -60,7 +59,6 @@ export async function userFetch(endpoint, body, methodParam, headers = {
                 headers: headers,
                 body: JSON.stringify(body)
             });
-            console.log(response);
             let responseJson = await response.json();
             if (response.ok) {
                 resolve(responseJson);

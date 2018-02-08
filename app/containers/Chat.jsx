@@ -33,7 +33,7 @@ class Chat extends Component {
                 loading: true
             });
 
-            let messages = await userFetch('/messages');
+            let messages = await userFetch('/api/messages');
             this.setState({
                 loading: false,
                 messages: [
@@ -51,7 +51,7 @@ class Chat extends Component {
         let userName = userInfo.username;
 
         message.author = userName;
-        
+
         this.socket.emit('message', message);
 
         this.setState({

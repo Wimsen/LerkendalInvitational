@@ -2,11 +2,14 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {FaSearch} from 'react-icons/lib/fa/';
 
-import Search from '../components/Search'; 
+import Search from '../components/Search';
 import TeamList from '../components/Teams/TeamList';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-import {getTeams} from '../db-mock';
+// import {userFetch} from '../auth';
+
+import {getTeams} from '../db';
+
 
 class Teams extends Component {
 
@@ -30,11 +33,12 @@ class Teams extends Component {
             filteredTeams: teams,
             loading: false
         });
+
     }
 
     filterTeams = (filter) => {
         let filteredTeams = this.state.teams.filter(team => {
-            return team.name.toLowerCase().includes(filter.target.value.toLowerCase());
+            return team.teamname.toLowerCase().includes(filter.target.value.toLowerCase());
         });
 
         this.setState({

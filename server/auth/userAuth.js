@@ -24,10 +24,10 @@ export async function authenticate(req, res, next) {
 
 export async function isAuthenticated(req, res, next) {
     try {
-        // TODO check if user actually exists
         const token = req.headers.authorization.split(' ')[1];
         let decoded = jwt.verify(token, process.env.SECRET_KEY);
         let username = decoded.username;
+        // TODO check if user actually exists
         console.log("User " + username + " is authenticated  ");
         req.username = username;
         next();

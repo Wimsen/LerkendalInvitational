@@ -39,4 +39,8 @@ export function dbFindOne(table, paramObject, client) {
     return executeAsyncQuery(`SELECT * FROM ${table} WHERE ${paramKey} = $1`, [paramObject[paramKey]], client).then(res => res[0]);
 }
 
+export function dbFindId( table, id, client ) {
+    return executeAsyncQuery( `SELECT * FROM ${ table } WHERE id = $1`, [id], client ).then(res => res[0]);
+}
+
 export default pool;

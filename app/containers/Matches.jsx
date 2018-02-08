@@ -8,10 +8,9 @@ import MatchListItem from '../components/TeamDetails/MatchListItem';
 
 import Search from '../components/Search';
 
-import {getTeams, getMatches} from '../db-mock';
+import {getTeams, getMatches} from '../db';
 
 class Matches extends Component {
-
     constructor(props) {
         super(props);
 
@@ -29,6 +28,14 @@ class Matches extends Component {
 
         let [teams, matches] = await Promise.all([getTeams(), getMatches()]);
 
+        matches.sort((match1, match2) => {
+            let dateDiff = new Date(match1.start_time) - new Date(match2.start_time);
+            if(dateDiff == 0){
+                return match1.table_number > match2.table_number;
+            }
+            return dateDiff;
+        })
+
         this.setState({
             teams: teams,
             matches: matches,
@@ -37,10 +44,14 @@ class Matches extends Component {
         });
     }
 
+    getTeam = (teamId) => {
+        return this.state.teams.filter(team => team.id == teamId)[0];
+    }
+
     filterMatches = (filter) => {
         let filteredMatches = this.state.matches.filter(match => {
-            let homeTeamName = this.state.teams[match.homeTeam].name;
-            let awayTeamName = this.state.teams[match.awayTeam].name;
+            let homeTeamName = getTeam(match.team1_id).teamname;
+            let awayTeamName = getTeam(match.team2_id).teamname;
             return (
                 homeTeamName.toLowerCase().includes(filter.target.value.toLowerCase())
                 || awayTeamName.toLowerCase().includes(filter.target.value.toLowerCase())
@@ -81,8 +92,8 @@ class Matches extends Component {
                                 <MatchListItem
                                     key={index}
                                     {...match}
-                                    homeTeamName={this.state.teams[match.homeTeam].name}
-                                    awayTeamName={this.state.teams[match.awayTeam].name}
+                                    homeTeamName={this.getTeam(match.team1_id).teamname}
+                                    awayTeamName={this.getTeam(match.team2_id).teamname}
                                 />
                             )
                         }
@@ -95,8 +106,8 @@ class Matches extends Component {
                                 <MatchListItem
                                     key={index}
                                     {...match}
-                                    homeTeamName={this.state.teams[match.homeTeam].name}
-                                    awayTeamName={this.state.teams[match.awayTeam].name}
+                                    homeTeamName={this.getTeam(match.team1_id).teamname}
+                                    awayTeamName={this.getTeam(match.team2_id).teamname}
                                 />
                             )
                         }

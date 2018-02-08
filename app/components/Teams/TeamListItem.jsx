@@ -9,9 +9,8 @@ class TeamListItem extends Component {
         return (<Link to={linkPath}>
             <div className="row teamListItem">
                 <div className="col">
-                    {this.props.team.name}
+                    {this.props.team.teamname}
                 </div>
-
                 <div className="col">
                     {this.props.team.points}
                 </div>

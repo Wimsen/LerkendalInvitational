@@ -3,11 +3,14 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
 import {createMessage} from './db/chat';
+import {testfunc} from './db/tournament';
 
-
-import userRoutes from './routes/user'
-import chatRoutes from './routes/chat';
-import s3Routes from './routes/s3';
+import {
+    userRouter,
+    chatRouter,
+    s3Router,
+    teamRouter
+} from './routes'
 
 let port = process.env.NODE_ENV === "production"
     ? 8080
@@ -23,14 +26,21 @@ app.use(express.static('dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/', userRoutes);
-app.use('/', chatRoutes);
-app.use('/s3', s3Routes);
-
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
+app.use('/oauth2callback', (req, res) => {
+    console.log(req.query);
 });
 
+app.use('/api', userRouter);
+app.use('/api', chatRouter);
+app.use('/s3', s3Router);
+// app.use('/api', googleAPIRouter);
+app.use('/api', teamRouter);
+// testfunc();
+
+app.get('*', (req, res) => {
+    console.log("standard return ");
+    res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
 
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -40,10 +50,10 @@ io.on('connection', async (socket) => {
     socket.on('message', async (message) => {
         console.log(message);
         socket.broadcast.emit('message', message); // Send message to everyone BUT sender
-        try{
+        try {
             await createMessage(message);
             console.log("Saved ok");
-        } catch (e){
+        } catch (e) {
             console.log(e);
         }
     });

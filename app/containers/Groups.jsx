@@ -5,7 +5,7 @@ import {FaSearch} from 'react-icons/lib/fa/';
 import GroupListItem from '../components/Groups/GroupListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-import {getGroups} from '../db-mock';
+import {getGroups} from '../db';
 
 class Groups extends Component {
 
@@ -45,7 +45,7 @@ class Groups extends Component {
                     </div>
                     {
                         groupIndices.map(groupIndex =>
-                            <GroupListItem key={groupIndex} groupId={groupIndex} teams={this.state.groups[groupIndex]} />
+                            <GroupListItem key={groupIndex} groupId={Number(groupIndex) + 1} teams={this.state.groups[groupIndex]} />
                         )
                     }
                 </div>
