@@ -50,8 +50,8 @@ class Matches extends Component {
 
     filterMatches = (filter) => {
         let filteredMatches = this.state.matches.filter(match => {
-            let homeTeamName = getTeam(match.team1_id).teamname;
-            let awayTeamName = getTeam(match.team2_id).teamname;
+            let homeTeamName = this.getTeam(match.team1_id).teamname;
+            let awayTeamName = this.getTeam(match.team2_id).teamname;
             return (
                 homeTeamName.toLowerCase().includes(filter.target.value.toLowerCase())
                 || awayTeamName.toLowerCase().includes(filter.target.value.toLowerCase())
