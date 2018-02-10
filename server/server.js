@@ -37,6 +37,10 @@ app.use('/s3', s3Router);
 app.use('/api', teamRouter);
 // testfunc();
 
+app.get('/.well-known/acme-challenge/:content', (req, res) => {
+  res.send('SAuHprwWNu2G9zt8UKZF8HMSlNcYZ4y8SL5gAIE9AP4.rdVwMDb5dr3irwEeAjiBpVvK-pBakMOtRF7JNqBpBIk')
+}); 
+
 app.get('*', (req, res) => {
     console.log("standard return ");
     res.sendFile(path.join(__dirname, '../dist/index.html'));
