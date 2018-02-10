@@ -26,24 +26,12 @@ app.use(express.static('dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-if (process.env.NODE_ENV === "production") {
-    app.get('*', (req, res, next) => {
-        if(req.headers['x-forwarded-proto']!='https'){
-          res.redirect('https://lerkendalinvitational.com' + req.url);
-        }
-        else {
-          next();  /* Continue to other routes if we're not redirecting */
-        }
-    });
-}
-
 app.use('/api', userRouter);
 app.use('/api', chatRouter);
 app.use('/s3', s3Router);
 // app.use('/api', googleAPIRouter);
 app.use('/api', teamRouter);
 // testfunc();
-
 
 app.get('*', (req, res) => {
     console.log("standard return ");
