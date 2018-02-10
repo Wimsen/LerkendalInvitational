@@ -26,9 +26,16 @@ app.use(express.static('dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use('/oauth2callback', (req, res) => {
-    console.log(req.query);
-});
+if (process.env.NODE_ENV === "production") {
+    app.get('*', (req, res, next) => {
+        if(req.headers['x-forwarded-proto']!='https'){
+          res.redirect('https://lerkendalinvitational.com' + req.url);
+        }
+        else {
+          next();  /* Continue to other routes if we're not redirecting */
+        }
+    });
+}
 
 app.use('/api', userRouter);
 app.use('/api', chatRouter);
@@ -37,9 +44,6 @@ app.use('/s3', s3Router);
 app.use('/api', teamRouter);
 // testfunc();
 
-app.get('/.well-known/acme-challenge/:content', (req, res) => {
-  res.send('SAuHprwWNu2G9zt8UKZF8HMSlNcYZ4y8SL5gAIE9AP4.rdVwMDb5dr3irwEeAjiBpVvK-pBakMOtRF7JNqBpBIk')
-}); 
 
 app.get('*', (req, res) => {
     console.log("standard return ");
