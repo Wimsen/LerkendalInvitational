@@ -36,24 +36,17 @@
 }
 
 
-.MessageForm {
-    display: flex;
+.messageForm {
     position: fixed;
     z-index: 100;
     bottom: 0;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    left: 0;
+    width: 100%;
+    background-color: white;
 }
 
-.MessageForm .input-container {
-  flex: 1;
-  margin: 1px;
-}
-
-.MessageForm .button-container {
-  flex: 0 0 6em;
-  margin: 1px 1px 1px 0;
+.messageForm button {
+    width: 100%;
 }
 
 .MessageForm input, .MessageForm button {
@@ -82,6 +75,11 @@
 .listContainer a{
     color: black !important;
 }
+.messageList {
+    height: 500px;
+    overflow-y: scroll;
+    // padding-bottom: 120px;
+}
 
 .chat {
     height:100%;
@@ -91,6 +89,15 @@
 .rce-mbox-photo--img img {
     max-height: 100px !important;
 }
+
 .modal-content img {
-    max-width: 100%; 
+    max-width: 100%;
+}
+
+.float-right {
+    float: right;
+}
+
+.no-margin-btm {
+    margin-bottom: 0 !important;
 }

@@ -17,6 +17,10 @@ class TeamDetails extends Component {
     }
 
     async componentWillMount() {
+        await this.getData();
+    }
+
+    getData = async () => {
         this.setState({
             loading: true
         });
@@ -29,11 +33,11 @@ class TeamDetails extends Component {
         })
 
         let upcomingMatches = matches.filter(match => {
-            return match.winner == null;
+            return match.winner_id == null;
         });
 
         let finishedMatches = matches.filter(match => {
-            return match.winner != null;
+            return match.winner_id != null;
         });
 
         this.setState({
@@ -43,7 +47,7 @@ class TeamDetails extends Component {
             upcomingMatches: upcomingMatches,
             loading: false
         });
-    }
+    };
 
     getTeam = (teamId) => {
         return this.state.teams.filter(team => team.id == teamId)[0];
@@ -66,6 +70,11 @@ class TeamDetails extends Component {
                     </div>
                     <div className="row">
                         <div className="col center-text">
+                            <h5>{this.state.team.points} poeng</h5>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col center-text">
                             {this.state.team.member1}
                         </div>
                         <div className="col center-text">
@@ -77,6 +86,7 @@ class TeamDetails extends Component {
                         {
                             this.state.upcomingMatches.map((match, index) =>
                                 <MatchListItem
+                                    onRegisterComplete={this.getData}
                                     key={index}
                                     {...match}
                                     homeTeamName={this.getTeam(match.team1_id).teamname}
@@ -90,6 +100,7 @@ class TeamDetails extends Component {
                         {
                             this.state.finishedMatches.map((match, index) =>
                                 <MatchListItem
+                                    onRegisterComplete={this.getData}
                                     key={index}
                                     {...match}
                                     homeTeamName={this.getTeam(match.team1_id).teamname}

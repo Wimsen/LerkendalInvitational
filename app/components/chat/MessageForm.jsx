@@ -65,12 +65,11 @@ class MessageForm extends Component {
                 imagePreviewUrl: reader.result
             });
         }
-        reader.readAsDataURL(file)
-        next(file)
+        reader.readAsDataURL(file);
+        next(file);
     }
 
     onUploadFinish = (data) => {
-        // Send socket message
         console.log(data);
         this.setState({s3key: data.fileKey});
     }
@@ -92,17 +91,31 @@ class MessageForm extends Component {
     render() {
 
         return (<div>
-            <form className="MessageForm" onSubmit={this.sendTextMessage}>
-                <div className="input-container">
-                    <input value={this.state.messageText} onChange={this.handleInputChange} name="messageText" type="text" placeholder="Enter your message..."/>
+            <div className="messageForm">
+                <div className=" md-form">
+                    <form>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col col-9">
+                                    <div className="input-container">
+                                        <input value={this.state.messageText} onChange={this.handleInputChange} name="messageText" type="text"  id="messagetext" className="form-control"/>
+                                        <label htmlFor="messagetext">Melding</label>
+                                    </div>
+                                </div>
+                                <div className="col">
+                                    <button onClick={this.toggleModal} type="button" className="btn btn-primary px-3"><i className="fa fa-camera" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <div className="row text-center">
+                                <div className="col">
+                                    <button onClick={this.sendTextMessage} type="submit" className="btn btn-primary no-margin-btm">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div className="button-container">
-                    <button type="submit">
-                        Send
-                    </button>
-                </div>
-                <i onClick={this.toggleModal} className="fa fa-camera" aria-hidden="true"></i>
-            </form>
+            </div>
+
 
             <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Send bilde</ModalHeader>

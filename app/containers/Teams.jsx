@@ -28,12 +28,14 @@ class Teams extends Component {
             loading: true
         });
         let teams = await getTeams();
+        teams.sort((team1, team2) => {
+            return team1.teamname.localeCompare(team2.teamname);
+        });
         this.setState({
             teams: teams,
             filteredTeams: teams,
             loading: false
         });
-
     }
 
     filterTeams = (filter) => {

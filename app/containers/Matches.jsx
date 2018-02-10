@@ -17,24 +17,34 @@ class Matches extends Component {
         this.state = {
             matches: [],
             filteredMatches: [],
-            loading: false
+            loading: false,
+            upcomingCollapsed: false,
+            finishedCollapsed: false
         }
     }
 
     async componentWillMount() {
+        await this.getData();
+    }
+
+    toggleUpcomingCollapsed = () => {
+        this.setState({
+            upcomingCollapsed: !this.state.upcomingCollapsed
+        });
+    }
+
+    toggleFinishedCollapsed = () => {
+        this.setState({
+            finishedCollapsed: !this.state.finishedCollapsed
+        });
+    }
+
+     getData = async () => {
         this.setState({
             loading: true
         });
 
         let [teams, matches] = await Promise.all([getTeams(), getMatches()]);
-
-        matches.sort((match1, match2) => {
-            let dateDiff = new Date(match1.start_time) - new Date(match2.start_time);
-            if(dateDiff == 0){
-                return match1.table_number > match2.table_number;
-            }
-            return dateDiff;
-        })
 
         this.setState({
             teams: teams,
@@ -65,56 +75,89 @@ class Matches extends Component {
 
     render() {
         let upcomingMatches = this.state.filteredMatches.filter(match => {
-            return match.winner == null;
+            return match.winner_id == null;
         });
 
         let finishedMatches = this.state.filteredMatches.filter(match => {
-            return match.winner != null;
+            return match.winner_id != null;
         });
 
         return (<div>
-            {
-                this.state.loading ?
-                <LoadingSpinner/>
-                : <div>
-                	<div className="row">
-                        <div className="col">
-                    		<h2>Kampoversikt</h2>
+            	<div className="row">
+                    <div className="col">
+                		<h2>Kampoversikt</h2>
+                    </div>
+            	</div>
+
+                <Search filterMethod={this.filterMatches} />
+
+                {
+                    this.state.loading ? <LoadingSpinner />
+                    :
+                    <div>
+                        <div className="listContainer">
+                            <h4
+                                onClick={this.toggleUpcomingCollapsed}
+                                data-toggle="collapse"
+                                href="#upcomingMatches"
+                                aria-expanded="false"
+                                aria-controls="upcomingMatches">
+                                Kommende kamper
+                                {
+                                    this.state.upcomingCollapsed ?
+                                    <i className="float-right fa fa-angle-down rotate-icon"></i>
+                                    :
+                                    <i className="float-right fa fa-angle-up rotate-icon"></i>
+                                }
+                            </h4>
+                            <div id="upcomingMatches">
+                                {
+                                    upcomingMatches.map((match, index) =>
+                                        <MatchListItem
+                                            onRegisterComplete={this.getData}
+                                            key={index}
+                                            {...match}
+                                            homeTeamName={this.getTeam(match.team1_id).teamname}
+                                            awayTeamName={this.getTeam(match.team2_id).teamname}
+                                        />
+                                    )
+                                }
+                            </div>
                         </div>
-                	</div>
 
-                    <Search filterMethod={this.filterMatches} />
-
-                    <div className="listContainer">
-                        <h4>Kommende kamper</h4>
-                        {
-                            upcomingMatches.map((match, index) =>
-                                <MatchListItem
-                                    key={index}
-                                    {...match}
-                                    homeTeamName={this.getTeam(match.team1_id).teamname}
-                                    awayTeamName={this.getTeam(match.team2_id).teamname}
-                                />
-                            )
-                        }
-                    </div>
-
-                    <div className="listContainer">
-                        <h4>Spilte kamper</h4>
-                        {
-                            finishedMatches.map((match, index) =>
-                                <MatchListItem
-                                    key={index}
-                                    {...match}
-                                    homeTeamName={this.getTeam(match.team1_id).teamname}
-                                    awayTeamName={this.getTeam(match.team2_id).teamname}
-                                />
-                            )
-                        }
-                    </div>
+                        <div className="listContainer">
+                            <h4
+                                onClick={this.toggleFinishedCollapsed}
+                                data-toggle="collapse"
+                                href="#finishedMatches"
+                                aria-expanded="false"
+                                aria-controls="finishedMatches">
+                                Spilte kamper
+                                {
+                                    this.state.finishedCollapsed ?
+                                    <i className="float-right fa fa-angle-down rotate-icon"></i>
+                                    :
+                                    <i className="float-right fa fa-angle-up rotate-icon"></i>
+                                }
+                            </h4>
+                            <div id="finishedMatches">
+                                {
+                                    finishedMatches.map((match, index) =>
+                                        <MatchListItem
+                                            onRegisterComplete={this.getData}
+                                            key={index}
+                                            {...match}
+                                            homeTeamName={this.getTeam(match.team1_id).teamname}
+                                            awayTeamName={this.getTeam(match.team2_id).teamname}
+                                        />
+                                    )
+                                }
+                            </div>
+                        </div>
                 </div>
             }
-        </div>);
+            </div>
+        );
     }
 }
 

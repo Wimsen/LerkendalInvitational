@@ -101,3 +101,21 @@ export async function getMatchesByTeamId(id) {
         console.log(e);
     }
 }
+
+export async function registerMatchResult(matchId, winnerId, loserId) {
+    try {
+        // TODO transaction 
+        await dbRunPromise('UPDATE matches SET winner_id = $1 WHERE id = $2;', [winnerId, matchId]);
+        let team1_points = await dbRunPromise('SELECT count(*) from matches where winner_id = $1', [winnerId]);
+        let team2_points = await dbRunPromise('SELECT count(*) from matches where winner_id = $1', [loserId]);
+
+        await dbRunPromise('UPDATE teams SET points = $1 where id = $2', [team1_points[0].count, winnerId]);
+        await dbRunPromise('UPDATE teams SET points = $1 where id = $2', [team2_points[0].count, loserId]);
+
+        console.log("HERE");
+        return team1_points;
+    } catch (e) {
+        console.log(e);
+        throw(e);
+    }
+}

@@ -78,6 +78,11 @@ export function isAuthenticated() {
         return true;
     }
 
+export function isAdminAuthenticated() {
+    // if (localStorage.getItem('admin_id_token') === null)
+    return localStorage.getItem('id_token') != null;
+    }
+
 export function getUserInfo() {
     if (!isAuthenticated())
         return {name: 'Ikke logget inn'}

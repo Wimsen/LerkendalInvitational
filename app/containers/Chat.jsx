@@ -15,7 +15,7 @@ class Chat extends Component {
             messages: []
         }
 
-        this.socket = openSocket('http://localhost:8082');
+        this.socket = openSocket('localhost:8082');
 
         this.socket.on('message', (message) => {
             this.setState({
@@ -41,8 +41,9 @@ class Chat extends Component {
                     ...messages
                 ]
             });
-        } catch (e) {
-            console.log(e);
+            this.messageList.scrollToBottom();
+        } catch (err) {
+            console.log(err);
         }
     }
 
@@ -70,7 +71,7 @@ class Chat extends Component {
                 this.state.loading
                     ? <LoadingSpinner/>
                     : <div>
-                        <MessageList messages={this.state.messages}/>
+                        <MessageList ref={e => this.messageList = e} messages={this.state.messages}/>
                         <MessageForm sendMessage={this.sendMessage}/>
                     </div>
                 : <div>Du må logge inn</div>

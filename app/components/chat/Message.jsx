@@ -33,9 +33,7 @@ class Message extends Component {
     let author = this.props.author
 
     let src = "";
-
-
-    console.log(this.props);
+    
     return (
         <div>
             <MessageBox

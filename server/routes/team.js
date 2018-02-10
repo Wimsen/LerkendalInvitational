@@ -1,6 +1,6 @@
 import express from 'express';
 
-import {getTeams, getTeam, getMatches, getMatchesByTeamId} from '../db/team';
+import {getTeams, getTeam, getMatches, getMatchesByTeamId, registerMatchResult} from '../db/team';
 import {isAuthenticated} from '../auth/userAuth';
 
 const teamRouter = express.Router();
@@ -31,4 +31,19 @@ teamRouter.get('/matches/team/:id', async (req, res) => {
     let matches = await getMatchesByTeamId(teamId);
     // console.log(matches);
     res.status(200).send(JSON.stringify(matches));
+});
+
+teamRouter.post('/matches', async (req, res) => {
+    if (!req.body.matchId || !req.body.winnerId || !req.body.loserId) {
+        res.status(400).send(JSON.stringify({message: "Missing required ids"}));
+        return;
+    }
+    // console.log(req.body);
+
+    try{
+        let status = await registerMatchResult(req.body.matchId, req.body.winnerId, req.body.loserId);
+        res.status(200).send(JSON.stringify({success: "true"}));
+    } catch(e) {
+        res.status(500).send(JSON.stringify({success: "false"}));
+    }
 });

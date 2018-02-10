@@ -23,6 +23,13 @@ export async function getTeam(id) {
 export async function getMatches() {
     try {
         let matches = await userFetch('/api/matches');
+        matches.sort((match1, match2) => {
+            let dateDiff = new Date(match1.start_time) - new Date(match2.start_time);
+            if(dateDiff == 0){
+                return match1.table_number > match2.table_number;
+            }
+            return dateDiff;
+        })
         return matches;
     } catch (e) {
         console.log(e);
@@ -57,6 +64,6 @@ export async function getMatchesByTeamId(id) {
         return matches;
     } catch (e) {
         console.log(e);
-        return []; 
+        return [];
     }
 }
