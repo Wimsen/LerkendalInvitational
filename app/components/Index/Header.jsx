@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
-import {isAuthenticated, logOut} from '../../auth';
+import {isAuthenticated, logOut, isAdminAuthenticated} from '../../auth/userAuth';
 
 class Header extends Component {
 
@@ -36,6 +36,10 @@ class Header extends Component {
                                 <Link className="nav-link" to="/chat">Chat</Link>
                             </li>
 
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/vote">Kostyme</Link>
+                            </li>
+
                             {
                                 isAuthenticated() ?
                                 <li className="nav-item">
@@ -51,6 +55,10 @@ class Header extends Component {
                                     </li>
                                 </div>
                             }
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/admin">Admin</Link>
+                            </li>
                         </ul>
                     </div>
                 </nav>

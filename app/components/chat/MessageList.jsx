@@ -19,7 +19,6 @@ class MessageList extends Component {
     }
 
     scrollToBottom = () => {
-        console.log("scrolling bot");
         this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
 

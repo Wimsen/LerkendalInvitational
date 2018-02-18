@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {FaSearch} from 'react-icons/lib/fa/';
+
+import {getTeams} from '../service/team';
+import {getMatches} from '../service/match';
 
 import TeamListItem from '../components/Teams/TeamListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 import MatchListItem from '../components/TeamDetails/MatchListItem';
-
 import Search from '../components/Search';
-
-import {getTeams, getMatches} from '../db';
 
 class Matches extends Component {
     constructor(props) {

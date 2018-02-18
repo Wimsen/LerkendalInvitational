@@ -12,8 +12,11 @@ import Chat from './containers/Chat';
 import Register from './containers/Register';
 import Matches from './containers/Matches';
 import Groups from './containers/Groups';
+import Vote from './containers/Vote';
+import Admin from './containers/Admin';
 import {Navbar} from 'mdbreact';
 
+import {NotificationContainer} from 'react-notifications';
 import "jquery";
 import "popper.js";
 import "node-waves";
@@ -21,7 +24,6 @@ import "node-waves";
 
 ReactDOM.render((<Router history={createBrowserHistory()}>
     <div>
-
         <Layout>
             <Route exact path="/" component={Teams}/>
             <Route exact path="/teams" component={Teams}/>
@@ -31,7 +33,10 @@ ReactDOM.render((<Router history={createBrowserHistory()}>
             <Route path="/register" component={Register} />
             <Route path="/matches" component={Matches} />
             <Route path="/groups" component={Groups} />
-        </Layout>
+            <Route path="/vote" component={Vote} />
+            <Route path="/admin" component={Admin} />
 
+            <NotificationContainer />
+        </Layout>
     </div>
 </Router>), document.getElementById('root'));

@@ -1,9 +1,10 @@
 import jwtDecode from 'jwt-decode';
+import {NotificationManager} from 'react-notifications';
 
 export async function authenticate(username, password) {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = await userFetch('/api/authenticate', {
+            let response = await userFetch('/api/user/authenticate', {
                 username: username,
                 password: password
             });
@@ -63,6 +64,9 @@ export async function userFetch(endpoint, body, methodParam, headers = {
             if (response.ok) {
                 resolve(responseJson);
             } else {
+                if(response.status == 401) {
+                    NotificationManager.error('Du må logge inn for å se innholdet på denne siden', 'Vennligst logg inn');
+                }
                 reject(responseJson);
             }
         } catch (error) {
@@ -77,16 +81,9 @@ export function isAuthenticated() {
     else
         return true;
     }
-
-export function isAdminAuthenticated() {
-    // if (localStorage.getItem('admin_id_token') === null)
-    return localStorage.getItem('id_token') != null;
-    }
-
 export function getUserInfo() {
     if (!isAuthenticated())
         return {name: 'Ikke logget inn'}
-    console.log(localStorage.getItem('id_token'));
     let token = localStorage.getItem('id_token');
     return jwtDecode(token);
 }

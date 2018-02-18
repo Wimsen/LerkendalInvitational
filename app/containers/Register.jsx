@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
 import LoadingSpinner from '../components/LoadingSpinner';
-import {userFetch} from '../auth';
+import {userFetch} from '../auth/userAuth';
 
 class Register extends Component {
     constructor(props) {

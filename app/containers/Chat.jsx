@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {userFetch, getFetch, getUserInfo, isAuthenticated} from '../auth';
+import {userFetch, getFetch, getUserInfo, isAuthenticated} from '../auth/userAuth';
 import openSocket from 'socket.io-client';
 
 import MessageForm from '../components/chat/MessageForm.jsx';
@@ -33,7 +33,7 @@ class Chat extends Component {
                 loading: true
             });
 
-            let messages = await userFetch('/api/messages');
+            let messages = await userFetch('/api/chat/messages');
             this.setState({
                 loading: false,
                 messages: [

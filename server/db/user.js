@@ -12,38 +12,38 @@ const ValidationError = "Validering feilet. ";
 
 const saltRounds = 10;
 
-export async function getAllUsers() {
-    try {
-        let users = await dbRunPromise('SELECT * FROM users WHERE deleted != 1');
-        return users;
-    } catch (e) {
-        throw new VError({
-            name: DBErrorName,
-            cause: e
-        }, 'Failed to get all users');
-    }
-}
-
-export async function getUser(id) {
-    let user;
-    try {
-        const userIdInt = parseInt(id);
-        user = await dbFindId('users', userIdInt);
-    } catch (e) {
-        throw({
-            name: DBErrorName
-        }, 'Failed to find user by ID. ');
-    }
-
-    if (!user) {
-        throw new VError({
-            name: DBErrorName,
-            info: id
-        }, UserNotFound)
-    }
-
-    return user;
-}
+// export async function getAllUsers() {
+//     try {
+//         let users = await dbRunPromise('SELECT * FROM teams');
+//         return users;
+//     } catch (e) {
+//         throw new VError({
+//             name: DBErrorName,
+//             cause: e
+//         }, 'Failed to get all users');
+//     }
+// }
+//
+// export async function getUser(id) {
+//     let user;
+//     try {
+//         const userIdInt = parseInt(id);
+//         user = await dbFindId('users', userIdInt);
+//     } catch (e) {
+//         throw({
+//             name: DBErrorName
+//         }, 'Failed to find user by ID. ');
+//     }
+//
+//     if (!user) {
+//         throw new VError({
+//             name: DBErrorName,
+//             info: id
+//         }, UserNotFound)
+//     }
+//
+//     return user;
+// }
 
 export async function getUserByUsername(username) {
     let user = null;
@@ -69,14 +69,14 @@ export async function getUserByUsername(username) {
 
 export async function verifyPassword(password, password_hash) {
     let success = bcrypt.compareSync(password, password_hash);
-    if (success)
-        return true;
-
-else
+    if (success){
+        return true;        
+    } else {
         throw new VError({
             name: DBErrorName
         }, UserNotFound);
     }
+}
 
 export async function createUser(newUser) {
     escapeUser(newUser);

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'mdbreact';
-import {userFetch} from '../../auth';
+import {userFetch} from '../../auth/userAuth';
 import ReactS3Uploader from 'react-s3-uploader';
 
 class MessageForm extends Component {

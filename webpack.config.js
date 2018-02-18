@@ -10,7 +10,7 @@ const config = {
             './app/static/js/bootstrap.min.js',
             './app/static/js/mdb.min.js'
         ],
-        styles: ['./app/static/styles/styles.less', 'react-chat-elements/dist/main.css']
+        styles: ['./app/static/styles/styles.less', 'react-chat-elements/dist/main.css', 'react-notifications/lib/notifications.css']
     },
 
     output: {
@@ -30,7 +30,7 @@ const config = {
                 ],
                 loaders: ['style-loader', 'css-loader', 'less-loader']
             }, {
-                test: /\.(otf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                test: /\.(ttf|otf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
                 loader: 'file-loader?name=fonts/[name].[ext]'
             }, {
                 //IMAGE LOADER

@@ -3,10 +3,10 @@ import {Link, withRouter} from 'react-router-dom';
 import {Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'mdbreact';
 
 import {formatDateToTime} from '../../utils';
-import {isAdminAuthenticated} from '../../auth';
+import {isAdminAuthenticated} from '../../auth/adminAuth';
 import LoadingSpinner from '../LoadingSpinner';
 
-import {registerResult} from '../../service';
+import {registerResult} from '../../service/match';
 
 class MatchListItem extends Component {
 

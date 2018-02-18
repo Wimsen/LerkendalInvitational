@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {FaArrowLeft} from 'react-icons/lib/fa/';
 
-import {getTeam, getMatchesByTeamId, getTeams} from '../db';
+import {getTeam, getTeams} from '../service/team';
+import {getMatchesByTeamId} from '../service/match';
+
 import MatchListItem from '../components/TeamDetails/MatchListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 

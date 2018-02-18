@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
 import LoadingSpinner from '../components/LoadingSpinner';
-import {authenticate} from '../auth';
+import {authenticate} from '../auth/userAuth';
+
+import {NotificationManager} from 'react-notifications';
+
 
 class Login extends Component {
     constructor(props) {
@@ -26,6 +29,7 @@ class Login extends Component {
 
         try {
             let response = await authenticate(this.state.username, this.state.password);
+            NotificationManager.success('Vellykket');
             this.props.history.push('/teams');
         } catch (e) {
             // TODO error handling

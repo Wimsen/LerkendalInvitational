@@ -5,7 +5,7 @@ import {FaSearch} from 'react-icons/lib/fa/';
 import GroupListItem from '../components/Groups/GroupListItem';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-import {getGroups} from '../db';
+import {getGroups} from '../service/team';
 
 class Groups extends Component {
 

@@ -5,10 +5,9 @@ import {FaSearch} from 'react-icons/lib/fa/';
 import Search from '../components/Search';
 import TeamList from '../components/Teams/TeamList';
 import LoadingSpinner from '../components/LoadingSpinner';
+import {NotificationManager} from 'react-notifications';
 
-// import {userFetch} from '../auth';
-
-import {getTeams} from '../db';
+import {getTeams} from '../service/team';
 
 
 class Teams extends Component {
@@ -50,19 +49,21 @@ class Teams extends Component {
 
     render() {
         return (<div>
-            {
-                this.state.loading ?
-                <LoadingSpinner/>
-                : <div>
+
                 	<div className="row">
                         <div className="col">
                     		<h2>Lagoversikt</h2>
                         </div>
                 	</div>
-                    <Search filterMethod={this.filterTeams} />
-                    <TeamList teams={this.state.filteredTeams} />
-                </div>
-            }
+                    {
+                        this.state.loading ?
+                        <LoadingSpinner/>
+                        :
+                        <div>
+                            <Search filterMethod={this.filterTeams} />
+                            <TeamList teams={this.state.filteredTeams} />
+                        </div>
+                    }
         </div>);
     }
 }

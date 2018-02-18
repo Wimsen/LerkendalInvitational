@@ -2,6 +2,8 @@
 @import 'spinner.less';
 
 @text-color: black;
+// @spinner-color: #0057e7;
+@spinner-color: #1976D2;
 
 .header-bg-right {
     background-image: url("/img/bp-right.png");
@@ -100,4 +102,81 @@
 
 .no-margin-btm {
     margin-bottom: 0 !important;
+}
+
+
+// Loading spinner material design
+
+.loader {
+  position: relative;
+  margin: 0 auto;
+  width: 54px;
+  height: 54px;
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+}
+
+.circular {
+  animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+@keyframes color {
+  100%,
+  0% {
+    stroke: @spinner-color;
+  }
+  40% {
+    stroke: @spinner-color;
+  }
+  66% {
+    stroke: @spinner-color;
+  }
+  80%,
+  90% {
+    stroke: @spinner-color;
+  }
+}
+
+.costume-contestant img {
+    max-width: 85%;
 }
