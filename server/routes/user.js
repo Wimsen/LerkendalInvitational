@@ -1,6 +1,5 @@
 import express from 'express';
 
-import {createUser} from '../db/user';
 import {authenticate} from '../auth/userAuth';
 
 const userRouter = express.Router();

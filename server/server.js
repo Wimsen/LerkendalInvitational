@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import path from 'path';
 import {createMessage} from './db/chat';
-import {createUser} from './db/user';
 import {testfunc} from './db/tournament';
 import {createAdmin} from './db/admin';
 

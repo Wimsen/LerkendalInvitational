@@ -70,47 +70,47 @@ export async function getUserByUsername(username) {
 export async function verifyPassword(password, password_hash) {
     let success = bcrypt.compareSync(password, password_hash);
     if (success){
-        return true;        
+        return true;
     } else {
         throw new VError({
             name: DBErrorName
         }, UserNotFound);
     }
 }
+//
+// export async function createUser(newUser) {
+//     escapeUser(newUser);
+//     try {
+//         let hash = bcrypt.hashSync(newUser.password, saltRounds);
+//         let username = newUser.username.toLowerCase();
+//         let result = await dbRunPromise('INSERT INTO users AS u (username, password_hash) VALUES ($1, $2)', [username, hash]);
+//         return result;
+//     } catch (e) {
+//         console.log(e);
+//         let message = GeneralError;
+//         if (e.code == 23505) {
+//             message = UserAlreadyExists;
+//         }
+//         throw new VError(message);
+//     }
+// }
 
-export async function createUser(newUser) {
-    escapeUser(newUser);
-    try {
-        let hash = bcrypt.hashSync(newUser.password, saltRounds);
-        let username = newUser.username.toLowerCase();
-        let result = await dbRunPromise('INSERT INTO users AS u (username, password_hash) VALUES ($1, $2)', [username, hash]);
-        return result;
-    } catch (e) {
-        console.log(e);
-        let message = GeneralError;
-        if (e.code == 23505) {
-            message = UserAlreadyExists;
-        }
-        throw new VError(message);
-    }
-}
-
-export async function deleteUsers(userIds) {
-    try {
-        console.log(userIds);
-        let params = userIds.map((userId, index) => {
-            return '$' + (
-            index + 1);
-        });
-        console.log(params);
-        let queryString = 'UPDATE users SET deleted = 1 WHERE id IN (' + params.join(', ') + ')';
-        console.log(queryString);
-        let result = await dbRunPromise(queryString, userIds);
-        return result;
-    } catch (e) {
-        console.log(e);
-        throw new VError({
-            name: DBErrorName
-        }, "Could not delete users");
-    }
-}
+// export async function deleteUsers(userIds) {
+//     try {
+//         console.log(userIds);
+//         let params = userIds.map((userId, index) => {
+//             return '$' + (
+//             index + 1);
+//         });
+//         console.log(params);
+//         let queryString = 'UPDATE users SET deleted = 1 WHERE id IN (' + params.join(', ') + ')';
+//         console.log(queryString);
+//         let result = await dbRunPromise(queryString, userIds);
+//         return result;
+//     } catch (e) {
+//         console.log(e);
+//         throw new VError({
+//             name: DBErrorName
+//         }, "Could not delete users");
+//     }
+// }
