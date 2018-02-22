@@ -9,6 +9,8 @@ import {createAdmin} from './db/admin';
 
 import {writeTeams} from './tournament-export';
 
+import {validateChatMessage} from './model/validators';
+
 import fs from 'fs';
 
 import {
@@ -55,19 +57,20 @@ io.on('connection', async (socket) => {
     console.log("Connected");
     socket.on('message', async (message) => {
         console.log(message);
-        socket.broadcast.emit('message', message); // Send message to everyone BUT sender
-        try {
-            await createMessage(message);
-            console.log("Saved ok");
-        } catch (e) {
-            console.log(e);
+        let errors = validateChatMessage(message)
+        if(Object.keys(errors).length === 0){
+            socket.broadcast.emit('message', message); // Send message to everyone BUT sender
+            try {
+                await createMessage(message);
+                console.log("Saved ok");
+            } catch (e) {
+                console.log(e);
+            }
         }
     });
     socket.on('disconnect', () => {
         console.log("disconnect");
     });
 });
-
-app.listen(process.env.PORT || port);
-server.listen(8082);
+server.listen(process.env.PORT || port);
 console.log("Server started");

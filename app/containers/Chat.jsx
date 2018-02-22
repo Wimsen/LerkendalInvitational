@@ -15,7 +15,7 @@ class Chat extends Component {
             messages: []
         }
 
-        this.socket = openSocket('localhost:8082');
+        this.socket = openSocket('localhost:8080');
 
         this.socket.on('message', (message) => {
             this.setState({
@@ -34,6 +34,11 @@ class Chat extends Component {
             });
 
             let messages = await authFetch('/api/chat/messages');
+
+            messages.sort((message1, message2) => {
+                return new Date(message1.created) - new Date(message2.created);
+            });
+
             this.setState({
                 loading: false,
                 messages: [

@@ -6,7 +6,8 @@ import {
     postCostumeContestant,
     postCostumeVote,
     getCostumeVote,
-    deleteCostumeContestant
+    deleteCostumeContestant,
+    getVotePercentages
 } from '../service/costume';
 
 import CostumeContestant from '../components/costume/CostumeContestant';
@@ -19,7 +20,8 @@ class Vote extends Component {
         this.state = {
             modalIsOpen: false,
             costumeContestants: [],
-            votedCostume: -1
+            votedCostume: -1,
+            votePercentages: {}
         }
     }
 
@@ -28,9 +30,19 @@ class Vote extends Component {
             loading: true
         });
         await Promise.all([this.getCostumeContestants(), this.getCostumeVote()]);
+        await this.getVotePercents();
         this.setState({
             loading: false
         });
+    }
+
+    getVotePercents = async () => {
+        if (isAdminAuthenticated()) {
+            let votePercentages = await getVotePercentages();
+            this.setState({
+                votePercentages: votePercentages
+            });
+        }
     }
 
     getCostumeVote = async () => {
@@ -61,7 +73,7 @@ class Vote extends Component {
 
     voteCostume = async (costumeId) => {
         let result = await postCostumeVote(costumeId);
-        await this.getCostumeVote();
+        await Promise.all([this.getCostumeVote(), this.getVotePercents()]);
     }
 
     deleteCostume = async (costumeId) => {
@@ -81,6 +93,7 @@ class Vote extends Component {
                     : this.state.costumeContestants.map(contestant =>
                         <CostumeContestant
                             voted={this.state.votedCostume == contestant.id}
+                            votes={this.state.votePercentages[contestant.id]}
                             key={contestant.id}
                             voteCostume={this.voteCostume}
                             deleteCostume={this.deleteCostume}
@@ -98,7 +111,7 @@ class Vote extends Component {
                     modalIsOpen={this.state.modalIsOpen}
                     toggleModal={this.toggleModal}
                     onSendPress={this.uploadImage}
-                    headerText="Last opp kostyme kandidat"
+                    headerText="Last opp kostymekandidat"
                     bodyText="Skriv inn lagnavn"
                     s3path="costumes/"
                 />

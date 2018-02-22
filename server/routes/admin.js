@@ -7,6 +7,9 @@ import fs from 'fs';
 import csv from 'csv';
 import robin from 'roundrobin';
 import moment from 'moment';
+import stringify from 'csv-stringify';
+import stringifySync from 'csv-stringify/lib/sync';
+
 
 import config from '../config';
 import {getTeams, createTeams, createMatches, resetTournament} from '../db/team';
@@ -32,14 +35,6 @@ oauth2Client.setCredentials(credentials);
 let fileId = config.google.file_id;
 let drive = google.drive({version: 'v3', auth: oauth2Client});
 
-var send = require('gmail-send')({
-  user: 'lerkendalinvitational@gmail.com',
-  pass: process.env.GMAIL_PASS,
-  to:   'lerkendalinvitational@gmail.com',
-  subject: '[Autogenerert] Turneringsoppsett - backup',
-  text:    'Hei!\n Vedlagt ligger lag og kamper. \n\n'
-});
-
 const adminRouter = express.Router();
 export default adminRouter;
 
@@ -48,26 +43,34 @@ adminRouter.post('/authenticate', authenticateAdmin, (req, res) => {
 });
 
 adminRouter.get('/reset', isAuthenticatedAdmin, async (req, res) => {
-    console.log("/costume");
     try {
         let status = await getAndWriteTournament();
         let deleteSuccess = await resetTournament();
         let teams = await readTeams();
         calculateGroups(teams);
+        await createPasswords(teams);
         await createTeams(teams);
+        console.log(teams);
         teams = await getTeams();
         let matches = generateMatches(teams);
         await createMatches(matches);
-
         console.log("success");
         res.status(200).send(JSON.stringify({success: true}));
     } catch (e) {
         console.log(e);
-        res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
+        res.status(500).send(JSON.stringify({error: "Something went wrong"}));
     }
 });
 
 adminRouter.get('/backup', isAuthenticatedAdmin, async (req, res) => {
+    var send = require('gmail-send')({
+      user: 'lerkendalinvitational@gmail.com',
+      pass: process.env.GMAIL_PASS,
+      to:   'lerkendalinvitational@gmail.com',
+      subject: '[Autogenerert] Turneringsoppsett - backup',
+      text:    'Hei!\nVedlagt ligger lag, kamper og brukere. \n\n'
+    });
+
     try {
         let teamsStatus = await writeTeams();
         let matchesStauts = await writeMatches();
@@ -78,13 +81,15 @@ adminRouter.get('/backup', isAuthenticatedAdmin, async (req, res) => {
                     path: './matches.csv'
                 }, {
                     path: './teams.csv'
+                }, {
+                    path: './teamspass.csv'
                 }
             ]
         }, (err, res2) => {
             if(err) {
                 console.log(true);
                 console.log(err);
-                res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
+                res.status(500).send(JSON.stringify({error: "Something went wrong"}));
             } else {
                 console.log(false);
                 res.status(200).send(JSON.stringify({success: true}));
@@ -93,9 +98,61 @@ adminRouter.get('/backup', isAuthenticatedAdmin, async (req, res) => {
         });
     } catch(e) {
         console.log(e);
-        res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
+        res.status(500).send(JSON.stringify({error: "Something went wrong"}));
     }
 });
+
+adminRouter.get('/sendpass', isAuthenticatedAdmin, async (req, res) => {
+    try {
+        await sendPasswords();
+        res.status(200).send(JSON.stringify({success: true}));
+    } catch(e) {
+        console.log(e);
+        res.status(500).send(JSON.stringify({error: "Something went wrong"}));
+    }
+});
+
+async function sendPasswords() {
+    return new Promise((resolve, reject) => {
+        try {
+            fs.readFile('./teamspass.csv', (err, data) => {
+                csv.parse(data, (err, data) => {
+                    data = data.slice(1);
+                    data.map((row) => {
+                        let email = row[0];
+                        let pass = row[1];
+
+                        // TODO send here
+                        console.log(email, "-", pass);
+                        resolve("success");
+                    })
+                });
+            });
+        } catch(e) {
+            console.log(e);
+            reject("error");
+        }
+    });
+}
+
+function createPasswords(teams){
+    let subs = fs.readFileSync('subs.txt').toString().split("\n");
+    let ads = fs.readFileSync('ads.txt').toString().split("\n");
+
+    // for(let i = 0; i < 15; i ++ ) {
+    let teamsPass = [];
+    teams.map((team) => {
+        let randomPass =  ads[Math.floor(Math.random()*ads.length)] + "_" + subs[Math.floor(Math.random()*subs.length)];
+        team.password = randomPass;
+        teamsPass.push({
+            username: team.email,
+            password: randomPass
+        });
+    });
+
+    let output = stringifySync(teamsPass, {header: true});
+    fs.writeFileSync("./teamspass.csv", output);
+}
 
 // Google drive fileID for the spreadsheets with teams
 function getAndWriteTournament() {

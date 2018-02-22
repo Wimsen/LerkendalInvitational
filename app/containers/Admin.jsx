@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {adminAuthenticate, isAdminAuthenticated, logOut} from '../auth/userAuth';
-import {resetTournament, backupTournament} from '../service/admin';
+import {resetTournament, backupTournament, sendPasswordEmail} from '../service/admin';
 
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -10,7 +10,8 @@ class Header extends Component {
         super(props);
         this.state = {
             loading: false,
-            resetLoading: false
+            resetLoading: false,
+            sendPassLoading: false
         };
     }
 
@@ -41,6 +42,19 @@ class Header extends Component {
             let result = await backupTournament();
             this.setState({
                 backupLoading: false
+            });
+        }
+    }
+
+    sendPassEmail = async () => {
+        let confirm = window.confirm("Er du sikker på at du vil sende ut epost med passord til alle lag?");
+        if(confirm) {
+            this.setState({
+                sendPassLoading: true
+            });
+            let result = await sendPasswordEmail();
+            this.setState({
+                sendPassLoading: false
             });
         }
     }
@@ -91,13 +105,26 @@ class Header extends Component {
                                     <button onClick={this.resetTournament} type="button" className="btn btn-danger">Tilbakestill turnering</button>
                                 }
                             </div>
-
+                        </div>
+                        <hr />
+                        <div className="row">
                             <div className="col">
                                 Sender backup av turnering i form av CSV fil til lerkendalinvitational.
                                 {
                                     this.state.backupLoading ? <LoadingSpinner />
                                     :
                                     <button onClick={this.sendBackup} type="button" className="btn btn-primary">Send backup av turnering på mail</button>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <div className="row">
+                            <div className="col">
+                                Sender generert passord på mail til alle registrerte lag.
+                                {
+                                    this.state.sendPassLoading ? <LoadingSpinner />
+                                    :
+                                    <button onClick={this.sendPassEmail} type="button" className="btn btn-primary">Send passord</button>
                                 }
                             </div>
                         </div>

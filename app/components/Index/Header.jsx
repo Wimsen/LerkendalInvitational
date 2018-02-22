@@ -21,9 +21,8 @@ class Header extends Component {
     render() {
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-blue">
-                    {/* <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div> */}
-                    {/* <img src={require("../../static/img/header.jpeg")} /> */}
+                <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-blue scrolling-navbar">
+                    <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div> 
                     <button ref={(navbtn) => this.navbtn = navbtn} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

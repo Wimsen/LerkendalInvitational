@@ -75,3 +75,13 @@ export async function deleteCostumeContestant(costumeId){
         throw new VError("Feil");
     }
 }
+
+export async function getVotePercentages(){
+    try {
+        let result = await dbRunPromise('select costume_id, COUNT(*) FROM costumes_votes GROUP BY costume_id'); 
+        return result;
+    } catch(e) {
+        console.log(e);
+        throw new VError("Feil");
+    }
+}

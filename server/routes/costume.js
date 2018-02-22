@@ -7,14 +7,14 @@ import {
     createCostumeContestant,
     createCostumeVote,
     getCostumeVote,
-    deleteCostumeContestant
+    deleteCostumeContestant,
+    getVotePercentages
 } from '../db/costume';
 import {isAuthenticated} from '../auth/userAuth';
 import {isAuthenticatedAdmin} from '../auth/adminAuth';
 
 const costumeRouter = express.Router();
 export default costumeRouter;
-// costumeRouter.use(isAuthenticated);
 
 costumeRouter.get('/', isAuthenticated, async (req, res) => {
     console.log("/costume");
@@ -87,6 +87,31 @@ costumeRouter.delete('/:id', isAuthenticatedAdmin, async (req, res) => {
         let result = await deleteCostumeContestant(costumeId);
         res.status(200).send(JSON.stringify({success: true}));
     } catch(e) {
+        console.log(e);
+        res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
+    }
+});
+
+costumeRouter.get('/votepercentages', isAuthenticatedAdmin, async (req, res) => {
+    try {
+        let result = await getVotePercentages();
+        console.log(result);
+
+        let totalVotes = 0;
+        for (let row of result){
+            totalVotes += Number(row.count);
+        }
+
+        let votePercentages = {};
+        for (let row of result){
+            votePercentages[row.costume_id] = {}
+            votePercentages[row.costume_id].count = row.count;
+            votePercentages[row.costume_id].percentage = ((Number(row.count) / totalVotes) * 100).toFixed(2);
+        }
+
+        res.status(200).send(JSON.stringify(votePercentages));
+        // else res.status(200).send(JSON.stringify({N: undefined}));
+    } catch (e) {
         console.log(e);
         res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
     }

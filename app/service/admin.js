@@ -21,6 +21,17 @@ export async function backupTournament(){
     } catch(e) {
         console.log(e);
         NotificationManager.error('Noe gikk galt. Vennligst prøv igjen', 'Feil');
-        return "fail; "
+        return "fail";
+    }
+}
+
+export async function sendPasswordEmail(){
+    try {
+        let result = await authFetch('/api/admin/sendpass');
+        NotificationManager.success('Epost-utsending vellykket.');
+        return "success";
+    } catch(e) {
+        NotificationManager.error('Noe gikk galt. Vennligst prøv igjen', 'Feil');
+        return "fail";
     }
 }

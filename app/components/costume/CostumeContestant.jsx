@@ -32,11 +32,10 @@ class CostumeContestant extends Component {
         this.setState({
             loading: true
         });
-        let [url, numVotes] = await Promise.all([getSignedUrl(this.props.s3key), getCostumeVotes(this.props.id)]);
+        let [url] = await Promise.all([getSignedUrl(this.props.s3key)]);
         this.setState({
             imageUrl: url,
             loading: false,
-            numVotes: numVotes
         });
         console.log(url);
     }
@@ -97,10 +96,10 @@ class CostumeContestant extends Component {
                             }
                         </div>
                         {
-                            this.state.numVotes != "" &&
+                            isAdminAuthenticated() && this.props.votes &&
                             <div className="row">
                                 <div className="col center-text">
-                                    Antall stemmer: {this.state.numVotes}
+                                    Antall stemmer: {this.props.votes.count} - {this.props.votes.percentage} %
                                 </div>
                             </div>
                         }

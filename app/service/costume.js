@@ -80,3 +80,13 @@ export async function getCostumeVotes(costumeId){
         console.log(e);
     }
 }
+
+export async function getVotePercentages(){
+    try {
+        let result = await authFetch('/api/costume/votepercentages');
+        console.log(result);
+        return result;
+    } catch(e) {
+        console.log(e);
+    }
+}

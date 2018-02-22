@@ -32,11 +32,10 @@ class Message extends Component {
 
   render() {
     let userInfo = getUserInfo()
-    let userName = userInfo.username;
+    let userName = userInfo.teamname;
 
     let ownMessage = userName == this.props.author;
     let position = ownMessage ? "right": "left";
-    // let author = ownMessage ? "Meg" : this.props.author;
     let author = this.props.author
 
     let src = "";

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'mdbreact';
 import {authFetch} from '../../auth/userAuth';
-import ReactS3Uploader from 'react-s3-uploader';
+import ImageUploader from '../ImageUploader';
 
 class MessageForm extends Component {
     constructor(props) {
@@ -43,13 +43,13 @@ class MessageForm extends Component {
         });
     }
 
-    sendImageMessage = () => {
+    sendImageMessage = async (data) => {
         let message = {
-            s3key: this.state.s3key,
-            textcontent: this.state.imageText,
+            s3key: data.s3key,
+            textcontent: data.imageText,
             type: "photo"
         }
-        this.props.sendMessage(message);
+        await this.props.sendMessage(message);
         this.setState({
             imageText: "",
             s3key: "",
@@ -115,7 +115,16 @@ class MessageForm extends Component {
                 </div>
             </div>
 
-            <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
+            <ImageUploader
+                modalIsOpen={this.state.modal}
+                toggleModal={this.toggleModal}
+                onSendPress={this.sendImageMessage}
+                headerText="Last opp bilde"
+                bodyText="Melding"
+                s3path="chat/"
+            />
+
+            {/* <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Send bilde</ModalHeader>
                 <ModalBody>
                     Send et bilde
@@ -148,7 +157,7 @@ class MessageForm extends Component {
                     <Button color="secondary" onClick={this.toggleModal}>Avbryt</Button>{' '}
                     <Button color="primary" onClick={this.sendImageMessage}>Send</Button>
                 </ModalFooter>
-            </Modal>
+            </Modal> */}
         </div>)
     }
 }

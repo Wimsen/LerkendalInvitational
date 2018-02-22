@@ -25,7 +25,7 @@ export async function createMessage(newMessage) {
 
 export async function getAllMessages() {
     try {
-        let messages = await dbRunPromise('SELECT * FROM chat');
+        let messages = await dbRunPromise('SELECT * FROM chat ORDER BY created DESC LIMIT 60');
         return messages;
     } catch (e) {
         throw new VError({

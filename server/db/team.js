@@ -24,7 +24,7 @@ export async function verifyPassword(password, password_hash) {
 export async function createTeams(teams) {
     try {
         await Promise.all(teams.map(async (team) => {
-            let hash = bcrypt.hashSync('123qweasd', saltRounds);
+            let hash = bcrypt.hashSync(team.password, saltRounds);
             let result = await dbRunPromise('INSERT INTO teams AS t (username, password_hash, teamname, member1, member2, group_number) VALUES ($1, $2, $3, $4, $5, $6)', [team.email, hash, team.teamname, team.member1, team.member2, team.group_number]);
             return result;
         }));
