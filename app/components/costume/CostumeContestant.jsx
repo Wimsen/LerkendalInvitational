@@ -5,9 +5,9 @@ import LoadingSpinner from '../LoadingSpinner';
 
 import ImagePreview from '../ImagePreview';
 
-import {isAdminAuthenticated} from '../../auth/adminAuth';
+import {isAdminAuthenticated} from '../../auth/userAuth';
 import {getSignedUrl} from '../../service/s3';
-import {postCostumeVote} from '../../service/costume'; 
+import {postCostumeVote, getCostumeVotes} from '../../service/costume';
 
 class CostumeContestant extends Component {
     constructor(props){
@@ -17,7 +17,8 @@ class CostumeContestant extends Component {
             imageUrl: "",
             loading: false,
             voteLoading: false,
-            modalIsOpen: false
+            modalIsOpen: false,
+            numVotes: ""
         };
     }
 
@@ -31,10 +32,11 @@ class CostumeContestant extends Component {
         this.setState({
             loading: true
         });
-        let url = await getSignedUrl(this.props.s3key);
+        let [url, numVotes] = await Promise.all([getSignedUrl(this.props.s3key), getCostumeVotes(this.props.id)]);
         this.setState({
             imageUrl: url,
-            loading: false
+            loading: false,
+            numVotes: numVotes
         });
         console.log(url);
     }
@@ -77,19 +79,29 @@ class CostumeContestant extends Component {
                 {
                     this.state.voteLoading ? <LoadingSpinner />
                     :
-                    <div className="row ">
-                        <div className="col">
+                    <div>
+                        <div className="row ">
+                            <div className="col">
+                                {
+                                    this.props.voted ?
+                                    <button disabled type="button" className="btn btn-success">Du har stemt på {this.props.teamname}</button>
+                                    :
+                                    <button onClick={this.vote} type="button" className="btn btn-primary">Stem på {this.props.teamname}</button>
+                                }
+                            </div>
                             {
-                                this.props.voted ?
-                                <button disabled type="button" className="btn btn-success">Du har stemt på {this.props.teamname}</button>
-                                :
-                                <button onClick={this.vote} type="button" className="btn btn-primary">Stem på {this.props.teamname}</button>
+                                isAdminAuthenticated() &&
+                                <div className="col" >
+                                    <button onClick={this.deleteCostume} type="button" className="btn btn-danger">Slett {this.props.teamname}</button>
+                                </div>
                             }
                         </div>
                         {
-                            isAdminAuthenticated() &&
-                            <div className="col" >
-                                <button onClick={this.deleteCostume} type="button" className="btn btn-danger">Slett {this.props.teamname}</button>
+                            this.state.numVotes != "" &&
+                            <div className="row">
+                                <div className="col center-text">
+                                    Antall stemmer: {this.state.numVotes}
+                                </div>
                             </div>
                         }
                     </div>

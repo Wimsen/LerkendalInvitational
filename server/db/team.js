@@ -163,3 +163,16 @@ export async function registerMatchResult(matchId, winnerId, loserId) {
         throw(e);
     }
 }
+
+export async function isEligibleForRegisterResult(teamId, matchId) {
+    try {
+        let result = await dbRunPromise('SELECT COUNT(*) FROM matches WHERE id = $2 AND (team1_id = $1 or team2_id = $1)', [teamId, matchId]);
+        console.log(result);
+        console.log(result[0]);
+        console.log(result[0] > 0);
+        return result[0].count > 0;
+    } catch(e) {
+        console.log(e);
+        throw(e);
+    }
+}

@@ -1,9 +1,9 @@
 import {NotificationManager} from 'react-notifications';
-import {userFetch} from '../auth/userAuth';
+import {authFetch} from '../auth/userAuth';
 
 export async function getMatches() {
     try {
-        let matches = await userFetch('/api/match');
+        let matches = await authFetch('/api/match');
         matches.sort((match1, match2) => {
             let dateDiff = new Date(match1.start_time) - new Date(match2.start_time);
             if(dateDiff == 0){
@@ -20,7 +20,7 @@ export async function getMatches() {
 
 export async function getMatchesByTeamId(id) {
     try {
-        let matches = await userFetch(`/api/match/team/${id}`);
+        let matches = await authFetch(`/api/match/team/${id}`);
         return matches;
     } catch (e) {
         console.log(e);
@@ -31,7 +31,7 @@ export async function getMatchesByTeamId(id) {
 export async function registerResult(matchId, winnerId, loserId) {
     try {
 
-        await userFetch('/api/match', {
+        await authFetch('/api/match', {
             matchId: matchId,
             winnerId: winnerId,
             loserId: loserId

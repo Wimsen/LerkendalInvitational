@@ -1,4 +1,4 @@
-import {userFetch, getUserInfo, logOut} from '../auth/userAuth';
+import {authFetch, isAdminAuthenticated, getUserInfo, logOut} from '../auth/userAuth';
 import {NotificationManager} from 'react-notifications';
 
 export async function postCostumeContestant(teamName, s3key){
@@ -8,7 +8,7 @@ export async function postCostumeContestant(teamName, s3key){
     };
 
     try {
-        let response = await userFetch('/api/costume', {
+        let response = await authFetch('/api/costume', {
             costumeContestant: costumeContestant
         });
         console.log(response);
@@ -23,7 +23,7 @@ export async function postCostumeContestant(teamName, s3key){
 
 export async function getCostumeContestants(){
     try {
-        let costumeContestants = await userFetch('/api/costume');
+        let costumeContestants = await authFetch('/api/costume');
         return costumeContestants;
     } catch(e) {
         console.log(e);
@@ -36,7 +36,7 @@ export async function postCostumeVote(costumeId){
     console.log(getUserInfo());
     let userId = getUserInfo().id;
     try {
-        let response = await userFetch('/api/costume/vote', {
+        let response = await authFetch('/api/costume/vote', {
             costumeId: costumeId,
             userId: userId
         });
@@ -50,7 +50,7 @@ export async function postCostumeVote(costumeId){
 
 export async function getCostumeVote(){
     try {
-        let result = await userFetch('/api/costume/vote');
+        let result = await authFetch('/api/costume/vote');
         console.log(result);
         return result.costumeId;
     } catch(e) {
@@ -61,12 +61,22 @@ export async function getCostumeVote(){
 
 export async function deleteCostumeContestant(costumeId){
     try {
-        let result = await userFetch(`/api/costume/${costumeId}`, {}, 'DELETE');
+        let result = await authFetch(`/api/costume/${costumeId}`, {}, 'DELETE');
         NotificationManager.success('Kandidat slettet', 'Vellykket');
         return "success";
     } catch(e) {
         console.log(e);
         NotificationManager.error('Noe gikk galt. Vennligst prøv igjen', 'Feil');
         return "fail";
+    }
+}
+
+export async function getCostumeVotes(costumeId){
+    try {
+        let result = await authFetch(`/api/costume/numvotes/${costumeId}`);
+        console.log(result);
+        return result.numVotes;
+    } catch(e) {
+        console.log(e);
     }
 }

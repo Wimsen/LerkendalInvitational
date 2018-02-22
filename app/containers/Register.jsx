@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
 import LoadingSpinner from '../components/LoadingSpinner';
-import {userFetch} from '../auth/userAuth';
+import {authFetch} from '../auth/userAuth';
 
 class Register extends Component {
     constructor(props) {
@@ -28,7 +28,7 @@ class Register extends Component {
         };
 
         try {
-            let result = await userFetch('/api/register', {
+            let result = await authFetch('/api/register', {
                 newUser: newUser
             });
             console.log(result);

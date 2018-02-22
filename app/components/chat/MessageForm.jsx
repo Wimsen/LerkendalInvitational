@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'mdbreact';
-import {userFetch} from '../../auth/userAuth';
+import {authFetch} from '../../auth/userAuth';
 import ReactS3Uploader from 'react-s3-uploader';
 
 class MessageForm extends Component {
@@ -89,7 +89,6 @@ class MessageForm extends Component {
     }
 
     render() {
-
         return (<div>
             <div className="messageForm">
                 <div className=" md-form">
@@ -98,7 +97,7 @@ class MessageForm extends Component {
                             <div className="row">
                                 <div className="col col-9">
                                     <div className="input-container">
-                                        <input value={this.state.messageText} onChange={this.handleInputChange} name="messageText" type="text"  id="messagetext" className="form-control"/>
+                                        <input autoComplete="off" value={this.state.messageText} onChange={this.handleInputChange} name="messageText" type="text"  id="messagetext" className="form-control"/>
                                         <label htmlFor="messagetext">Melding</label>
                                     </div>
                                 </div>
@@ -116,12 +115,11 @@ class MessageForm extends Component {
                 </div>
             </div>
 
-
             <Modal isOpen={this.state.modal} toggle={this.toggleModal}>
                 <ModalHeader toggle={this.toggleModal}>Send bilde</ModalHeader>
                 <ModalBody>
                     Send et bilde
-                    <input value={this.state.imageText} onChange={this.handleInputChange} name="imageText" type="text" placeholder="Enter your message..."/>
+                    <input autoComplete="off" value={this.state.imageText} onChange={this.handleInputChange} name="imageText" type="text" placeholder="Enter your message..."/>
                     <ReactS3Uploader
                         signingUrl="/s3/sign"
                         signingUrlMethod="GET"

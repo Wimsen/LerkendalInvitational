@@ -7,7 +7,7 @@ class Search extends Component {
             <div className="row">
                 <div className="col">
                     <div className="form-inline md-form form-sm">
-                        <input onChange={this.props.filterMethod} className="form-control" type="text" placeholder="Søk" aria-label="Søk"/>
+                        <input name="filterText" onChange={this.props.handleFilterChange} className="form-control" type="text" placeholder="Søk" aria-label="Søk"/>
                     </div>
                 </div>
             </div>

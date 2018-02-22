@@ -85,6 +85,9 @@ class ImageUploader extends Component {
                         preprocess={this.onUploadStart}
                         onFinish={this.onUploadFinish}
                         signingUrlWithCredentials={true}
+                        signingUrlHeaders={{
+                            'auth': `Bearer: ${localStorage.getItem('id_token')}`
+                        }}
                         uploadRequestHeaders={{
                             'x-amz-acl' : 'public-read'
                         }}

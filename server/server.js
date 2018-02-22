@@ -7,6 +7,10 @@ import {createUser} from './db/user';
 import {testfunc} from './db/tournament';
 import {createAdmin} from './db/admin';
 
+import {writeTeams} from './tournament-export';
+
+import fs from 'fs';
+
 import {
     userRouter,
     chatRouter,

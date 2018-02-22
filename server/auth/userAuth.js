@@ -12,7 +12,8 @@ export async function authenticate(req, res, next) {
 
         const payload = {
             id: user.id,
-            username: username
+            username: username,
+            teamname: user.teamname
         };
         console.log("payload");
         const token = jwt.sign(payload, process.env.SECRET_KEY);
@@ -27,12 +28,14 @@ export async function authenticate(req, res, next) {
 export async function isAuthenticated(req, res, next) {
     try {
         console.log("Is user auth?");
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.headers["auth"].split(' ')[1];
         let decoded = jwt.verify(token, process.env.SECRET_KEY);
         let username = decoded.username;
+        let userid = decoded.id;
         // TODO check if user actually exists
         console.log("User " + username + " is authenticated  ");
         req.username = username;
+        req.userid = userid;
         next();
     } catch (err) {
         res.status(401).send({message: "unauthorized"});

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {userFetch, getFetch, getUserInfo, isAuthenticated} from '../auth/userAuth';
-import {isAdminAuthenticated} from '../auth/adminAuth';
+import {authFetch, getFetch, getUserInfo, isAuthenticated} from '../auth/userAuth';
+import {isAdminAuthenticated} from '../auth/userAuth';
 import {
     getCostumeContestants,
     postCostumeContestant,

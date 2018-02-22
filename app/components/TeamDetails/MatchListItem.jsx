@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {Button, Modal, ModalBody, ModalHeader, ModalFooter} from 'mdbreact';
 
 import {formatDateToTime} from '../../utils';
-import {isAdminAuthenticated} from '../../auth/adminAuth';
+import {isAdminAuthenticated, getUserInfo} from '../../auth/userAuth';
 import LoadingSpinner from '../LoadingSpinner';
 
 import {registerResult} from '../../service/match';
@@ -37,10 +37,12 @@ class MatchListItem extends Component {
             registerLoading: false,
             modal: false
         });
+
         this.props.onRegisterComplete();
     }
 
     render() {
+        let allowedToRegister = isAdminAuthenticated() || (getUserInfo().id == this.props.team1_id || getUserInfo().id == this.props.team2_id);
         let homeTeamClassName = "col";
         let awayTeamClassName = "col";
         if (this.props.winner_id) {
@@ -76,7 +78,7 @@ class MatchListItem extends Component {
                     </div>
                 }
                 {
-                    isAdminAuthenticated() &&
+                    allowedToRegister &&
                     <div className="row">
                         <div className="col">
                             <button onClick={this.toggleModal} type="button" className="btn btn-primary btn-sm">Registrer resultat</button>

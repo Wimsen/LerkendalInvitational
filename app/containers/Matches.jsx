@@ -18,7 +18,8 @@ class Matches extends Component {
             filteredMatches: [],
             loading: false,
             upcomingCollapsed: false,
-            finishedCollapsed: false
+            finishedCollapsed: false,
+            filterText: ""
         }
     }
 
@@ -48,8 +49,9 @@ class Matches extends Component {
         this.setState({
             teams: teams,
             matches: matches,
-            filteredMatches: matches,
             loading: false
+        }, () => {
+            this.filterMatches(this.state.filterText);
         });
     }
 
@@ -57,13 +59,21 @@ class Matches extends Component {
         return this.state.teams.filter(team => team.id == teamId)[0];
     }
 
-    filterMatches = (filter) => {
+    handleFilterChange = (event) => {
+        const target = event.target;
+        const value = target.value;
+        this.setState({filterText: value}, () => {
+            this.filterMatches(this.state.filterText)
+        });
+    }
+
+    filterMatches = (filterText) => {
         let filteredMatches = this.state.matches.filter(match => {
             let homeTeamName = this.getTeam(match.team1_id).teamname;
             let awayTeamName = this.getTeam(match.team2_id).teamname;
             return (
-                homeTeamName.toLowerCase().includes(filter.target.value.toLowerCase())
-                || awayTeamName.toLowerCase().includes(filter.target.value.toLowerCase())
+                homeTeamName.toLowerCase().includes(filterText.toLowerCase())
+                || awayTeamName.toLowerCase().includes(filterText.toLowerCase())
             );
         });
 
@@ -88,7 +98,7 @@ class Matches extends Component {
                     </div>
             	</div>
 
-                <Search filterMethod={this.filterMatches} />
+                <Search handleFilterChange={this.handleFilterChange} />
 
                 {
                     this.state.loading ? <LoadingSpinner />

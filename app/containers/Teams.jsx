@@ -18,7 +18,8 @@ class Teams extends Component {
         this.state = {
             teams: [],
             filteredTeams: [],
-            loading: false
+            loading: false,
+            filterText: ""
         }
     }
 
@@ -37,13 +38,21 @@ class Teams extends Component {
         });
     }
 
-    filterTeams = (filter) => {
+    filterTeams = (filterText) => {
         let filteredTeams = this.state.teams.filter(team => {
-            return team.teamname.toLowerCase().includes(filter.target.value.toLowerCase());
+            return team.teamname.toLowerCase().includes(filterText.toLowerCase());
         });
 
         this.setState({
             filteredTeams: filteredTeams
+        });
+    }
+
+    handleFilterChange = (event) => {
+        const target = event.target;
+        const value = target.value;
+        this.setState({filterText: value}, () => {
+            this.filterTeams(this.state.filterText)
         });
     }
 
@@ -60,7 +69,7 @@ class Teams extends Component {
                         <LoadingSpinner/>
                         :
                         <div>
-                            <Search filterMethod={this.filterTeams} />
+                            <Search handleFilterChange={this.handleFilterChange} />
                             <TeamList teams={this.state.filteredTeams} />
                         </div>
                     }

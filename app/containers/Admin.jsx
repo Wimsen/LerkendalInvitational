@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
-
-import {adminAuthenticate, isAdminAuthenticated} from '../auth/adminAuth';
-import {logOut} from '../auth/userAuth';
-import {resetTournament} from '../service/admin';
+import {adminAuthenticate, isAdminAuthenticated, logOut} from '../auth/userAuth';
+import {resetTournament, backupTournament} from '../service/admin';
 
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -31,6 +29,19 @@ class Header extends Component {
                     resetLoading: false
                 });
             }
+        }
+    }
+
+    sendBackup = async () => {
+        let confirm = window.confirm("Er du sikker på at du vil ta backup av turneringen? Dette vil sende en epost til lerka");
+        if(confirm) {
+            this.setState({
+                backupLoading: true
+            });
+            let result = await backupTournament();
+            this.setState({
+                backupLoading: false
+            });
         }
     }
 
@@ -78,6 +89,15 @@ class Header extends Component {
                                     this.state.resetLoading ? <LoadingSpinner />
                                     :
                                     <button onClick={this.resetTournament} type="button" className="btn btn-danger">Tilbakestill turnering</button>
+                                }
+                            </div>
+
+                            <div className="col">
+                                Sender backup av turnering i form av CSV fil til lerkendalinvitational.
+                                {
+                                    this.state.backupLoading ? <LoadingSpinner />
+                                    :
+                                    <button onClick={this.sendBackup} type="button" className="btn btn-primary">Send backup av turnering på mail</button>
                                 }
                             </div>
                         </div>

@@ -5,6 +5,14 @@ import {isAuthenticated, logOut, isAdminAuthenticated} from '../../auth/userAuth
 
 class Header extends Component {
 
+    constructor(props){
+        super(props);
+
+        this.props.history.listen((location) => {
+            if (!this.navbtn.className.includes("collapsed")) this.navbtn.click();
+        });
+    }
+
     handleLogout = () => {
         logOut();
         this.props.history.push('/login');
@@ -14,8 +22,9 @@ class Header extends Component {
         return (
             <div>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-blue">
-                    <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    {/* <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div> */}
+                    {/* <img src={require("../../static/img/header.jpeg")} /> */}
+                    <button ref={(navbtn) => this.navbtn = navbtn} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">

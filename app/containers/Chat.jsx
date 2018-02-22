@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {userFetch, getFetch, getUserInfo, isAuthenticated} from '../auth/userAuth';
+import {authFetch, getFetch, getUserInfo, isAuthenticated} from '../auth/userAuth';
 import openSocket from 'socket.io-client';
 
 import MessageForm from '../components/chat/MessageForm.jsx';
@@ -33,7 +33,7 @@ class Chat extends Component {
                 loading: true
             });
 
-            let messages = await userFetch('/api/chat/messages');
+            let messages = await authFetch('/api/chat/messages');
             this.setState({
                 loading: false,
                 messages: [
@@ -49,9 +49,8 @@ class Chat extends Component {
 
     sendMessage = async (message) => {
         let userInfo = getUserInfo();
-        let userName = userInfo.username;
-
-        message.author = userName;
+        let teamName = userInfo.teamname;
+        message.author = teamName;
 
         this.socket.emit('message', message);
 

@@ -20,6 +20,19 @@ export async function getCostumeContestants() {
     }
 }
 
+export async function getCostumeVotes(costumeId) {
+    try {
+        let numVotes = await dbRunPromise('SELECT COUNT(*) FROM costumes_votes WHERE costume_id = $1', [costumeId]);
+        console.log(numVotes);
+        return numVotes[0];
+    } catch (e) {
+        throw new VError({
+            name: DBErrorName,
+            cause: e
+        }, 'Failed to get all num votes');
+    }
+}
+
 export async function createCostumeContestant(costumeContestant) {
     try {
         let result = await dbRunPromise('INSERT INTO costumes AS c (teamname, s3key) VALUES ($1, $2)', [costumeContestant.teamname, costumeContestant.s3key]);

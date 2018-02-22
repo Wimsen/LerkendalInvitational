@@ -12,6 +12,8 @@ import config from '../config';
 import {getTeams, createTeams, createMatches, resetTournament} from '../db/team';
 import {authenticateAdmin, isAuthenticatedAdmin} from '../auth/adminAuth';
 
+import {writeTeams, writeMatches} from '../tournament-export';
+
 let OAuth2Client = google.auth.OAuth2;
 
 let CLIENT_ID = config.google.client_id;
@@ -29,6 +31,14 @@ oauth2Client.setCredentials(credentials);
 
 let fileId = config.google.file_id;
 let drive = google.drive({version: 'v3', auth: oauth2Client});
+
+var send = require('gmail-send')({
+  user: 'lerkendalinvitational@gmail.com',
+  pass: process.env.GMAIL_PASS,
+  to:   'lerkendalinvitational@gmail.com',
+  subject: '[Autogenerert] Turneringsoppsett - backup',
+  text:    'Hei!\n Vedlagt ligger lag og kamper. \n\n'
+});
 
 const adminRouter = express.Router();
 export default adminRouter;
@@ -52,6 +62,36 @@ adminRouter.get('/reset', isAuthenticatedAdmin, async (req, res) => {
         console.log("success");
         res.status(200).send(JSON.stringify({success: true}));
     } catch (e) {
+        console.log(e);
+        res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
+    }
+});
+
+adminRouter.get('/backup', isAuthenticatedAdmin, async (req, res) => {
+    try {
+        let teamsStatus = await writeTeams();
+        let matchesStauts = await writeMatches();
+        console.log("teams and matches written ");
+        send({
+            files: [
+                {
+                    path: './matches.csv'
+                }, {
+                    path: './teams.csv'
+                }
+            ]
+        }, (err, res2) => {
+            if(err) {
+                console.log(true);
+                console.log(err);
+                res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
+            } else {
+                console.log(false);
+                res.status(200).send(JSON.stringify({success: true}));
+            }
+            console.log('* [example 1.2] send() callback returned: err:', err, '; res:', res2);
+        });
+    } catch(e) {
         console.log(e);
         res.status(500).send(JSON.stringify({error: "Soemthing went wrong"}));
     }

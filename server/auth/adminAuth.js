@@ -15,7 +15,9 @@ export async function authenticateAdmin(req, res, next) {
             username: username
         };
 
-        const token = jwt.sign(payload, process.env.SECRET_KEY);
+        const token = jwt.sign(payload, process.env.ADMIN_SECRET_KEY);
+        console.log("signed using ");
+        console.log(process.env.ADMIN_SECRET_KEY);
         req.token = token;
         next();
     } catch (e) {
@@ -27,8 +29,8 @@ export async function authenticateAdmin(req, res, next) {
 export async function isAuthenticatedAdmin(req, res, next) {
     try {
         console.log("is auth admin? ");
-        const token = req.headers.authorization.split(' ')[1];
-        let decoded = jwt.verify(token, process.env.SECRET_KEY);
+        const token = req.headers["admin-auth"].split(' ')[1];
+        let decoded = jwt.verify(token, process.env.ADMIN_SECRET_KEY);
         let username = decoded.username;
         // TODO check if user actually exists
         console.log("Admin " + username + " is authenticated  ");
@@ -39,3 +41,17 @@ export async function isAuthenticatedAdmin(req, res, next) {
         res.status(401).send({message: "unauthorized"});
     };
 };
+
+
+export async function isRequestAdminAuthenticated(req) {
+    try {
+        const token = req.headers["admin-auth"].split(' ')[1];
+        let decoded = jwt.verify(token, process.env.ADMIN_SECRET_KEY);
+        let username = decoded.username;
+        // TODO check if user actually exists
+        console.log("Admin " + username + " is authenticated  ");
+        return true;
+    } catch (e) {
+        return false;
+    }
+}

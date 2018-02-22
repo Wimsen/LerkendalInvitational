@@ -4,7 +4,7 @@ import {NotificationManager} from 'react-notifications';
 export async function authenticate(username, password) {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = await userFetch('/api/user/authenticate', {
+            let response = await authFetch('/api/user/authenticate', {
                 username: username,
                 password: password
             });
@@ -18,30 +18,25 @@ export async function authenticate(username, password) {
     });
 }
 
-export async function getFetch(endpoint, headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-}
-) {
-    let method = 'GET';
+export async function adminAuthenticate(username, password) {
     return new Promise(async (resolve, reject) => {
         try {
-            let response = await fetch(endpoint, {
-                method: method,
-                headers: headers
+            let response = await authFetch('/api/admin/authenticate', {
+                username: username,
+                password: password
             });
-            if (response.ok) {
-                resolve(response);
-            } else {
-                reject(response);
-            }
-        } catch (error) {
-            reject(error);
+
+            let token = response.token;
+            console.log("setting token ");
+            localStorage.setItem('admin_token', token);
+            resolve(response);
+        } catch (e) {
+            reject(e);
         }
     });
 }
 
-export async function userFetch(endpoint, body, methodParam, headers = {
+export async function authFetch(endpoint, body, methodParam, headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
 }) {
@@ -52,7 +47,11 @@ export async function userFetch(endpoint, body, methodParam, headers = {
         : methodParam;
 
     if (isAuthenticated())
-        headers['authorization'] = `Bearer: ${localStorage.getItem('id_token')}`;
+        headers['auth'] = `Bearer: ${localStorage.getItem('id_token')}`;
+
+    if (isAdminAuthenticated())
+        headers['admin-auth'] = `Bearer: ${localStorage.getItem('admin_token')}`;
+
     return new Promise(async (resolve, reject) => {
         try {
             let response = await fetch(endpoint, {
@@ -76,11 +75,13 @@ export async function userFetch(endpoint, body, methodParam, headers = {
 }
 
 export function isAuthenticated() {
-    if (localStorage.getItem('id_token') === null)
-        return false;
-    else
-        return true;
-    }
+    return localStorage.getItem('id_token') != null;
+}
+
+export function isAdminAuthenticated() {
+    return localStorage.getItem('admin_token') != null;
+}
+
 export function getUserInfo() {
     if (!isAuthenticated())
         return {name: 'Ikke logget inn'}

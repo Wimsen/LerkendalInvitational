@@ -1,8 +1,8 @@
-import {userFetch} from '../auth/userAuth';
+import {authFetch} from '../auth/userAuth';
 
 export async function getTeams() {
     try {
-        let teams = await userFetch('/api/team');
+        let teams = await authFetch('/api/team');
         return teams;
     } catch (e) {
         console.log(e);
@@ -12,7 +12,7 @@ export async function getTeams() {
 
 export async function getTeam(id) {
     try {
-        let team = await userFetch(`/api/team/${id}`);
+        let team = await authFetch(`/api/team/${id}`);
         return team;
     } catch (e) {
         console.log(e);
