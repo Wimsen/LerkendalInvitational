@@ -15,7 +15,7 @@ class Chat extends Component {
             messages: []
         }
 
-        this.socket = openSocket('localhost:8080');
+        this.socket = openSocket();
 
         this.socket.on('message', (message) => {
             this.setState({
