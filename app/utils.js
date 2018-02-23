@@ -2,7 +2,7 @@ import moment from 'moment';
 
 export function formatDateToTime(created, includeSeconds = false) {
     let date = created;
-
+    date.setHours(date.getHours() - 1);
     let hours = date.getHours().toString().length == 1
         ? '0' + date.getHours()
         : date.getHours();
@@ -44,7 +44,7 @@ export function formatDate(created, includeTime = true, includeSeconds = false) 
 
     let dateString = day + '.' + monthIndex + '.' + year;
     if (includeTime)
-        dateString += formatDateToTime(date, includeSeconds); 
+        dateString += formatDateToTime(date, includeSeconds);
 
     return dateString;
 }
