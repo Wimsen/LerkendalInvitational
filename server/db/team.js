@@ -103,14 +103,12 @@ export async function getTeamByEmail(email) {
         console.log(e);
         throw new VError({
             name: DBErrorName,
-            info: username
         }, 'Couldn\'t get team by email. ');
     }
 
     if (!user) {
         throw new VError({
             name: DBErrorName,
-            info: username
         }, UserNotFound);
     }
 

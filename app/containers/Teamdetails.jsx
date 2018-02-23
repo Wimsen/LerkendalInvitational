@@ -14,8 +14,17 @@ class TeamDetails extends Component {
         super(props);
 
         this.state = {
-            loading: false
+            loading: false,
+            id: this.props.match.params.id
         };
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            id: nextProps.match.params.id
+        }, () => {
+            this.getData();
+        });
     }
 
     async componentWillMount() {
@@ -27,7 +36,7 @@ class TeamDetails extends Component {
             loading: true
         });
 
-        let teamId = this.props.match.params.id;
+        let teamId = this.state.id;
         let [team, teams, matches] = await Promise.all([getTeam(teamId), getTeams(), getMatchesByTeamId(teamId)]);
 
         matches.sort((match1, match2) => {
