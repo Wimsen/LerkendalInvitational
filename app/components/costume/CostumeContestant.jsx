@@ -37,7 +37,6 @@ class CostumeContestant extends Component {
             imageUrl: url,
             loading: false,
         });
-        console.log(url);
     }
 
     vote = async () => {

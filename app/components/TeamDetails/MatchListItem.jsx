@@ -26,7 +26,6 @@ class MatchListItem extends Component {
     }
 
     registerWinner = async (winnerId, loserId) => {
-        console.log(this.props);
         this.setState({
             registerLoading: true
         });

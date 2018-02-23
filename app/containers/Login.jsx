@@ -17,25 +17,17 @@ class Login extends Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        // this._isMounted = false;
     }
 
     async onSubmit(e) {
         e.preventDefault();
-
         this.setState({loading: true});
-
-        console.log(this.state);
-
         try {
             let response = await authenticate(this.state.username, this.state.password);
             NotificationManager.success('Vellykket');
             this.props.history.push('/teams');
         } catch (e) {
-            // TODO error handling
-            // if (e.message) {
-            //     this.form.showError('password', (value) => <Error bugView={true} error={e.message}/>);
-            // }
+            console.log(e);
         }
         this.setState({loading: false});
     }
