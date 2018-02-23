@@ -15,6 +15,7 @@ import Groups from './containers/Groups';
 import Vote from './containers/Vote';
 import Admin from './containers/Admin';
 import {Navbar} from 'mdbreact';
+import Rules from './containers/Rules';
 
 import {NotificationContainer} from 'react-notifications';
 import "jquery";
@@ -35,6 +36,7 @@ ReactDOM.render((<Router history={createBrowserHistory()}>
             <Route path="/groups" component={Groups} />
             <Route path="/vote" component={Vote} />
             <Route path="/admin" component={Admin} />
+            <Route path="/rules" component={Rules} />
 
             <NotificationContainer />
         </Layout>

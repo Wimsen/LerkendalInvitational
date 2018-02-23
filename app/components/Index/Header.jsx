@@ -22,7 +22,7 @@ class Header extends Component {
         return (
             <div>
                 <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-blue scrolling-navbar">
-                    <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div> 
+                    <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div>
                     <button ref={(navbtn) => this.navbtn = navbtn} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
@@ -38,6 +38,10 @@ class Header extends Component {
 
                             <li className="nav-item">
                                 <Link className="nav-link" to="/groups">Grupper</Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/rules">Regler</Link>
                             </li>
 
                             <li className="nav-item">
