@@ -27,6 +27,7 @@ class Login extends Component {
             NotificationManager.success('Vellykket');
             this.props.history.push('/teams');
         } catch (e) {
+            NotificationManager.error('Feil brukernavn / passord');
             console.log(e);
         }
         this.setState({loading: false});

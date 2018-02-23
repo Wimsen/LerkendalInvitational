@@ -152,7 +152,6 @@ function createPasswords(teams){
     let subs = fs.readFileSync('subs.txt').toString().split("\n");
     let ads = fs.readFileSync('ads.txt').toString().split("\n");
 
-    // for(let i = 0; i < 15; i ++ ) {
     let teamsPass = [];
     teams.map((team) => {
         let randomPass =  ads[Math.floor(Math.random()*ads.length)] + "_" + subs[Math.floor(Math.random()*subs.length)];
