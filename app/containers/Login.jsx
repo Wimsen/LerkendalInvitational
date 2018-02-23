@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
 import LoadingSpinner from '../components/LoadingSpinner';
-import {authenticate} from '../auth/userAuth';
+import {authenticate, getUserInfo} from '../auth/userAuth';
 
 import {NotificationManager} from 'react-notifications';
 
@@ -25,7 +25,10 @@ class Login extends Component {
         try {
             let response = await authenticate(this.state.username, this.state.password);
             NotificationManager.success('Vellykket');
-            this.props.history.push('/teams');
+
+            let userInfo = getUserInfo();
+            let teamId = userInfo.id;
+            this.props.history.push(`/teams/${teamId}`);
         } catch (e) {
             NotificationManager.error('Feil brukernavn / passord');
             console.log(e);

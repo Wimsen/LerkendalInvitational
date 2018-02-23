@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 
-import {isAuthenticated, logOut, isAdminAuthenticated} from '../../auth/userAuth';
+import {isAuthenticated, logOut, isAdminAuthenticated, getUserInfo} from '../../auth/userAuth';
 
 class Header extends Component {
 
@@ -19,10 +19,19 @@ class Header extends Component {
     }
 
     render() {
+        let linkPath = "#";
+        if (isAuthenticated()) {
+            let userInfo = getUserInfo();
+            let teamId = userInfo.id;
+            linkPath = `/teams/${teamId}`;
+        }
+
         return (
             <div>
                 <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-blue scrolling-navbar">
-                    <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div>
+                    <Link to={linkPath}>
+                        <div className="navbar-brand"><strong>Lerkendal Invitational</strong></div>
+                    </Link>
                     <button ref={(navbtn) => this.navbtn = navbtn} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

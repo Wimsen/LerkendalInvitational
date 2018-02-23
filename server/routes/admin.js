@@ -117,28 +117,22 @@ async function sendPasswords() {
         try {
             fs.readFile('./teamspass.csv', (err, data) => {
                 csv.parse(data, (err, data) => {
-                    // let pass = "passord";
-                    // let user = 'lerkendalinvitational@gmail.com';
-
                     data = data.slice(1);
                     data.map((row) => {
                         let user = row[0];
                         let pass = row[1];
-                        // TODO send here
 
-                        // var send = require('gmail-send')({
-                        //   user: user,
-                        //   pass: process.env.GMAIL_PASS,
-                        //   to:   'lerkendalinvitational@gmail.com',
-                        //   subject: '[Autogenerert] Lerkendal Invitational innlogging',
-                        //   text: `Hei!\nHer er innloggingsinformasjon til årets begivenhet, Lerkendal Invitational. \nBrukernavn: ${user}\nPassord: ${pass}`
-                        // })();
+                        var send = require('gmail-send')({
+                          user: 'lerkendalinvitational@gmail.com',
+                          pass: process.env.GMAIL_PASS,
+                          to:   user,
+                          subject: '[Autogenerert] Lerkendal Invitational innlogging',
+                          text: `Hei!\nHer er innloggingsinformasjon til årets begivenhet, Lerkendal Invitational. \n\nBrukernavn: ${user}\nPassord: ${pass}\n\nLogg inn på http://www.lerkendalinvitational.no/login`
+                        })();
 
                         console.log(user, "-", pass);
-
-
-                        resolve("success");
-                    })
+                    });
+                    resolve("success");
                 });
             });
         } catch(e) {
