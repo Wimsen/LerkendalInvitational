@@ -36,7 +36,7 @@ export function dbRunPromise(...args) {
 
 export function dbFindOne(table, paramObject, client) {
     const paramKey = Object.keys(paramObject)[0];
-    return executeAsyncQuery(`SELECT * FROM ${table} WHERE ${paramKey} = $1`, [paramObject[paramKey]], client).then(res => res[0]);
+    return executeAsyncQuery(`SELECT * FROM ${table} WHERE LOWER(${paramKey}) = LOWER($1)`, [paramObject[paramKey]], client).then(res => res[0]);
 }
 
 export function dbFindId( table, id, client ) {
