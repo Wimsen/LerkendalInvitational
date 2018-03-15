@@ -15,6 +15,5 @@ teamRouter.get('/', async (req, res) => {
 teamRouter.get('/:id', async (req, res) => {
     let teamId = req.params.id;
     let team = await getTeam(teamId);
-    console.log(team);
     res.status(200).send(JSON.stringify(team));
 });

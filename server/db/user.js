@@ -1,14 +1,14 @@
-import {VError} from 'verror';
+import { VError } from 'verror';
 import bcrypt from 'bcrypt';
 
-import {dbRunPromise, dbFindId, dbFindOne} from './db';
-import {escapeUser} from '../model/user';
+import { dbRunPromise, dbFindId, dbFindOne } from './db';
+import { escapeUser } from '../model/user';
 
-const GeneralError = "Noe gikk galt. Vennligst prøv igjen senere. ";
-const UserNotFound = "Feil brukernavn / passord ";
-const UserAlreadyExists = "Brukeren eksisterer allerede. ";
-const DBErrorName = "DBError";
-const ValidationError = "Validering feilet. ";
+const GeneralError = 'Noe gikk galt. Vennligst prøv igjen senere. ';
+const UserNotFound = 'Feil brukernavn / passord ';
+const UserAlreadyExists = 'Brukeren eksisterer allerede. ';
+const DBErrorName = 'DBError';
+const ValidationError = 'Validering feilet. ';
 
 const saltRounds = 10;
 
@@ -46,36 +46,45 @@ const saltRounds = 10;
 // }
 
 export async function getUserByUsername(username) {
-    let user = null;
-    try {
-        user = await dbFindOne('users', {username: username});
-    } catch (e) {
-        console.log(e);
-        throw new VError({
-            name: DBErrorName,
-            info: username
-        }, 'Couldn\'t get user by username. ');
-    }
+	let user = null;
+	try {
+		user = await dbFindOne('users', { username: username });
+	} catch (e) {
+		console.log(e);
+		throw new VError(
+			{
+				name: DBErrorName,
+				info: username
+			},
+			"Couldn't get user by username. "
+		);
+	}
 
-    if (!user) {
-        throw new VError({
-            name: DBErrorName,
-            info: username
-        }, UserNotFound);
-    }
+	if (!user) {
+		throw new VError(
+			{
+				name: DBErrorName,
+				info: username
+			},
+			UserNotFound
+		);
+	}
 
-    return user;
+	return user;
 }
 
 export async function verifyPassword(password, password_hash) {
-    let success = bcrypt.compareSync(password, password_hash);
-    if (success){
-        return true;
-    } else {
-        throw new VError({
-            name: DBErrorName
-        }, UserNotFound);
-    }
+	let success = bcrypt.compareSync(password, password_hash);
+	if (success) {
+		return true;
+	} else {
+		throw new VError(
+			{
+				name: DBErrorName
+			},
+			UserNotFound
+		);
+	}
 }
 //
 // export async function createUser(newUser) {
